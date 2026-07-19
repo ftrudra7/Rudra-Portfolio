@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rudra Jha - Digital Architect & Creative Technologist</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Libraries for Interactions -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script> <!-- Added ScrollToPlugin -->
+    
+    <!-- Typed.js for typing animation -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+    <!-- Spline 3D Viewer -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.33/build/spline-viewer.js"></script>
+
+    <!-- Icons and Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Sora:wght@600&family=Inter:wght@400;500&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-base: #020203;
+            --bg-card: rgba(25, 25, 30, 0.5); 
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #EDEDF0;
+            --text-secondary: #9696A0;
+            --accent-primary: #FF4700;
+            --accent-secondary: #FFB800;
+            --font-heading: 'Poppins', 'Sora', sans-serif;
+            --font-subheading: 'Sora', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-devanagari: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        body.light-mode {
+            --bg-base: #F0F2F5;
+            --bg-card: rgba(255, 255, 255, 0.6);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --text-primary: #1a1a1a;
+            --text-secondary: #5c5c62;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        #aurora-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        .main-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            max-width: 1400px;
+            margin: auto;
+        }
+        @media (min-width: 640px) {
+            .main-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        .font-heading { font-family: var(--font-heading); }
+        .font-subheading { font-family: var(--font-subheading); }
+
+        .card {
+            background-color: rgba(30, 30, 35, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .card:hover {
+            background-color: rgba(35, 35, 40, 0.4);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        body.light-mode .card {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        body.light-mode .card:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- New Header Styles --- */
+        .header-wrapper {
+            padding: 2px; /* Controls the thickness of the gradient border */
+            border-radius: 50px; /* Pill shape */
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+        }
+
+        .main-header {
+            background-color: rgba(10, 10, 12, 0.5);
+            border-radius: 50px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: 0.75rem 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+        body.light-mode .main-header {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+
+        /* --- Glossy Button Styles with Colored Shadow on Hover --- */
+        .cta-btn {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            color: #fff;
+            font-weight: 500;
+            padding: 0.8rem 1.75rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none; /* Shadow removed from default state */
+            text-align: center;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4); /* Shadow added on hover */
+        }
+        .cta-btn.primary {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+        }
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        body.light-mode .cta-btn.secondary {
+            border-color: var(--border-color);
+        }
+
+        .header-name {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+        .header-name:hover {
+            text-shadow: 0 0 15px var(--accent-primary);
+            color: #fff;
+        }
+        
+        /* --- Project Card Styles with Shadow on Hover --- */
+        .project-card {
+            background-color: rgba(10, 10, 12, 0.4);
+            border-radius: 1.75rem;
+            padding: 1rem;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: none; /* Shadow removed from default state */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(255, 107, 0, 0.4); /* Shadow added on hover */
+        }
+        .project-card .image-container {
+            position: relative;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            margin-bottom: 1rem;
+        }
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .project-info {
+            padding: 0 0.5rem;
+        }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .project-title h3 {
+            font-family: var(--font-subheading);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .project-title p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .project-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .project-links a {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            transition: color 0.3s ease;
+        }
+        .project-links a:hover {
+            color: var(--text-primary);
+        }
+
+        #hero {
+            min-height: 90vh;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            align-items: center;
+            gap: 2rem;
+        }
+        .hero-text {
+            grid-column: span 12 / span 12;
+            text-align: center;
+        }
+        .hero-visual {
+            grid-column: span 12 / span 12;
+            min-height: 350px;
+            position: relative;
+            overflow: hidden; 
+        }
+        @media (min-width: 768px) {
+            .hero-text { 
+                grid-column: span 5 / span 5; 
+                text-align: left;
+            }
+            .hero-visual { 
+                grid-column: span 7 / span 7; 
+                min-height: 400px;
+            }
+        }
+        
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+            border-radius: 1.5rem;
+            transform: scale(1);
+            transform-origin: center;
+            /* Ensure the viewer is transparent to show the background */
+            --spline-viewer-background: transparent !important;
+        }
+        @media (min-width: 768px) {
+            spline-viewer {
+                transform: scale(1.2);
+                min-height: 400px;
+            }
+        }
+        
+        .social-circle-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+        .social-circle-btn:hover {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+        }
+        @media (min-width: 640px) {
+            .social-circle-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        /* --- Modified Intro Animation Styles --- */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(2, 2, 3, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-in-out;
+            opacity: 1;
+        }
+
+        #intro-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .typing-container {
+            text-align: center;
+        }
+        
+        .typing-line {
+            min-height: 1.2em; /* Reserve space to prevent layout shift */
+            display: block; /* Force each line to take up its own row */
+        }
+
+        #line1 {
+            font-family: var(--font-devanagari), var(--font-heading);
+            font-size: clamp(2rem, 7vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #FFD200, #FF7E00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #FFD200;
+        }
+
+        #line2 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 600;
+            background: linear-gradient(90deg, #FFD200, #FF7E00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #FFD200;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 4px;
+            background: linear-gradient(90deg, #FFD200, #FF7E00);
+            margin-left: 8px;
+            animation: blink 0.7s infinite;
+            /* Match the height of the line it's on */
+            height: clamp(2.5rem, 8vw, 5rem); 
+            vertical-align: middle;
+            transform: translateY(-5px); /* Fine-tune vertical position */
+        }
+        
+        .cursor.line1 {
+            height: clamp(2rem, 7vw, 4rem);
+        }
+        .cursor.hidden {
+            visibility: hidden;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* --- New style for the B.Tech tag --- */
+        .skill-tag {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .skill-tag:hover {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+            color: var(--text-primary);
+        }
+
+        /* --- New Skills Section Styles --- */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjusted min-width for mobile */
+            gap: 1rem;
+        }
+        @media (min-width: 640px) {
+            .skills-container {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+
+        .skill-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            aspect-ratio: 1 / 1;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            text-align: center;
+        }
+        @media (min-width: 640px) {
+            .skill-item {
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+        }
+
+
+        .skill-item:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(255, 107, 0, 0.3);
+            background-color: rgba(35, 35, 40, 0.7);
+        }
+        body.light-mode .skill-item:hover {
+            box-shadow: 0 10px 25px rgba(255, 107, 0, 0.4);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .skill-item .skill-item-icon {
+            font-size: 2rem; /* For Font Awesome icons */
+            height: 2rem; /* For img tags */
+            width: 2rem; /* For img tags */
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        @media (min-width: 640px) {
+            .skill-item .skill-item-icon {
+                font-size: 2.5rem; 
+                height: 2.5rem; 
+                width: 2.5rem;
+            }
+        }
+
+
+        .skill-item:hover .skill-item-icon {
+            color: var(--text-primary);
+            transform: scale(1.1);
+        }
+        
+        /* Specific color overrides for icons that need it */
+        .skill-item .fa-js { color: #f7df1e; }
+        .skill-item .fa-html5 { color: #e34f26; }
+        .skill-item .fa-css3-alt { color: #1572b6; }
+        .skill-item .fa-git-alt { color: #f34f29; }
+        .skill-item .fa-github, body.light-mode .skill-item .fa-github { color: var(--text-primary); }
+
+
+        .skill-item .skill-item-name {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .skill-item:hover .skill-item-name {
+            color: var(--text-primary);
+        }
+
+        /* --- Theme Toggle Button --- */
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+        .theme-toggle-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        body.light-mode .theme-toggle-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        #moon-icon { display: block; }
+        #sun-icon { display: none; }
+        body.light-mode #moon-icon { display: none; }
+        body.light-mode #sun-icon { display: block; }
+
+        /* --- Cookie Consent Popup Styles --- */
+        #cookie-consent-popup {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(200%); /* Start off-screen */
+            max-width: 95%;
+            width: 600px;
+            background: linear-gradient(135deg, #2a1a00, #1a1a1a);
+            color: var(--text-primary);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        #cookie-consent-popup.show {
+            transform: translateX(-50%) translateY(0); /* Slide in */
+        }
+
+        #cookie-consent-popup p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+        
+        #cookie-consent-popup p a {
+            color: #ffcc33;
+            text-decoration: underline;
+        }
+        
+        #cookie-consent-popup .cookie-buttons {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .cookie-btn {
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-grow: 1;
+        }
+
+        .cookie-btn.accept {
+            background: linear-gradient(90deg, #ff6600, #ffcc00);
+            color: white;
+        }
+        .cookie-btn.accept:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(255, 136, 0, 0.6);
+        }
+
+        .cookie-btn.decline {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #ff9900;
+            color: white;
+        }
+        .cookie-btn.decline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.03);
+        }
+
+        @media (min-width: 640px) {
+            #cookie-consent-popup {
+                flex-direction: row;
+                text-align: left;
+                align-items: center;
+                gap: 2rem;
+            }
+            #cookie-consent-popup .cookie-buttons {
+                width: auto;
+                flex-grow: 0;
+            }
+            .cookie-btn {
+                flex-grow: 0;
+            }
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="aurora-canvas"></canvas>
+
+    <!-- Modified Intro Overlay HTML -->
+    <div id="intro-overlay">
+        <div class="typing-container">
+            <!-- Added specific cursor class for line1 to adjust size -->
+            <span id="line1" class="typing-line"></span>
+            <span id="line2" class="typing-line"></span>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[99] flex-col items-center justify-center space-y-8">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-white">&times;</button>
+        <a href="#projects" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="projects">Work</a>
+        <a href="#skills" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="skills">Skills</a>
+        <a href="#about" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="about">About</a>
+        <a href="#contact" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="contact">Contact</a>
+        <div class="flex items-center gap-4 mt-4">
+            <button id="mobile-theme-toggle" class="theme-toggle-btn text-3xl">
+                <i id="mobile-moon-icon" class="fas fa-moon"></i>
+                <i id="mobile-sun-icon" class="fas fa-sun"></i>
+            </button>
+            <!-- Updated resume link to use inline styling for visibility -->
+            <a href="Rudra_Jha_Resume.pdf" download class="cta-btn primary" style="min-width: 150px;">Download Resume</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header-wrapper sticky top-4 z-50">
+            <header class="main-header flex justify-between items-center">
+                <a href="#" class="header-name nav-link">RUDRA JHA</a>
+                <nav class="hidden md:flex items-center gap-8 font-medium text-gray-300">
+                    <a href="#projects" class="hover:text-white transition-colors nav-link">Work</a>
+                    <a href="#skills" class="hover:text-white transition-colors nav-link">Skills</a>
+                    <a href="#about" class="hover:text-white transition-colors nav-link">About</a>
+                    <a href="#contact" class="hover:text-white transition-colors nav-link">Contact</a>
+                </nav>
+                <div class="hidden md:flex items-center gap-4">
+                    <button id="theme-toggle" class="theme-toggle-btn">
+                        <i id="moon-icon" class="fas fa-moon"></i>
+                        <i id="sun-icon" class="fas fa-sun"></i>
+                    </button>
+                    <a href="Rudra_Jha_Resume.pdf" download class="cta-btn primary">Download CV</a>
+                </div>
+                <button id="hamburger-btn" class="md:hidden text-2xl p-2" aria-label="Open navigation menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </header>
+        </div>
+
+        <main class="py-16 md:py-20 space-y-20 md:space-y-28">
+            <!-- Hero Section -->
+            <section id="hero">
+                <div class="hero-text">
+                    <span class="skill-tag mb-4 inline-block">B.Tech Undergraduate</span>
+                    <h1 class="font-heading text-4xl sm:text-5xl md:text-7xl font-bold leading-tight uppercase">Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400"><br>Rudra Jha</span></h1>
+                    <!-- Container for the typing animation -->
+                    <div class="mt-2 min-h-[40px] md:min-h-[50px]">
+                        <span id="typed-strings" class="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400"></span>
+                    </div>
+                    <p class="text-base sm:text-lg mt-4 mb-8 max-w-lg mx-auto md:mx-0" style="color: var(--text-secondary);">
+                        I craft exceptional digital experiences with code, creativity, and a passion for innovation.
+                    </p>
+                    <div class="flex items-center justify-center md:justify-start gap-4">
+                        <a href="#projects" class="cta-btn primary nav-link">View Projects</a>
+                        <a href="#contact" class="cta-btn secondary nav-link">Contact Me</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <!-- Added data-no-logo attribute to hide the Spline logo if possible through viewer API -->
+                    <spline-viewer url="https://prod.spline.design/4QVs1v7zKNlNjAyC/scene.splinecode" data-no-logo></spline-viewer>
+                </div>
+            </section>
+
+            <!-- TradingView Ticker Section (Restored) -->
+            <section id="market-ticker" class="card p-2 md:p-3 overflow-hidden">
+                <div class="tradingview-widget-container">
+                    <div id="ticker-tape-widget" class="tradingview-widget-container__widget"></div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="card p-6 md:p-8">
+                <div class="flex flex-col md:flex-row items-start gap-6 md:gap-8">
+                        <img src="picofme.png" alt="Rudra Jha" class="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-white/10 flex-shrink-0 mx-auto md:mx-0" onerror="this.onerror=null;this.src='https://placehold.co/150x150/0A0A0C/FF4700?text=RJ';">
+                        <div>
+                            <h2 class="font-heading text-3xl font-bold mb-4 uppercase text-center md:text-left">About Me</h2>
+                            <div class="space-y-4 text-base sm:text-lg leading-relaxed" style="color: var(--text-secondary);">
+                                <p>I’m a Computer Science engineer focused on building real-world software — from clean frontends to scalable backend systems.
+
+I work primarily with full-stack web technologies and enjoy turning ideas into functional products. My interests lie in backend development, system design basics, and applied AI — especially where automation and practical impact meet.
+
+I’ve built multiple projects covering authentication systems, dashboards, APIs, and data-driven applications, and I’m continuously improving my problem-solving skills through DSA and hands-on development.
+
+Right now, I’m actively preparing for software roles and internships, with a clear goal: write clean code, ship meaningful products, and grow into a strong engineer.</p>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            
+            <!-- Updated Skills Section -->
+            <section id="skills" class="card p-6 md:p-8">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-center uppercase mb-8 md:mb-12">My Skills</h2>
+                <div class="skills-container">
+                    <!-- Languages -->
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="C icon" class="skill-item-icon">
+                        <p class="skill-item-name">C</p>
+                    </div>
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" alt="C++ icon" class="skill-item-icon">
+                        <p class="skill-item-name">C++</p>
+                    </div>
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java icon" class="skill-item-icon">
+                        <p class="skill-item-name">Java</p>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-js skill-item-icon"></i>
+                        <p class="skill-item-name">JavaScript</p>
+                    </div>
+                    <!-- New: Python -->
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python icon" class="skill-item-icon">
+                        <p class="skill-item-name">Python</p>
+                    </div>
+                    
+                    <!-- Frontend/Web -->
+                    <div class="skill-item">
+                        <i class="fab fa-html5 skill-item-icon"></i>
+                        <p class="skill-item-name">HTML5</p>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-css3-alt skill-item-icon"></i>
+                        <p class="skill-item-name">CSS3</p>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-react skill-item-icon" style="color: #61DAFB;"></i>
+                        <p class="skill-item-name">React.js</p>
+                    </div>
+                    <!-- 3D/Visualization -->
+                    <div class="skill-item">
+                        <img src="3js.png" alt="Three.js icon" class="skill-item-icon" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=ThreeJS';">
+                        <p class="skill-item-name">Three.js</p>
+                    </div>
+
+                    <!-- Backend/Runtime -->
+                    <!-- New: FastAPI -->
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" alt="FastAPI icon" class="skill-item-icon">
+                        <p class="skill-item-name">FastAPI</p>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-node-js skill-item-icon" style="color: #339933;"></i>
+                        <p class="skill-item-name">Node.js</p>
+                    </div>
+                    
+                    <!-- Databases -->
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="PostgreSQL icon" class="skill-item-icon">
+                        <p class="skill-item-name">PostgreSQL</p>
+                    </div>
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" alt="MySQL icon" class="skill-item-icon">
+                        <p class="skill-item-name">MySQL</p>
+                    </div>
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="MongoDB icon" class="skill-item-icon">
+                        <p class="skill-item-name">MongoDB</p>
+                    </div>
+                    <div class="skill-item">
+                        <img src="supabase.png" alt="Supabase icon" class="skill-item-icon" onerror="this.onerror=null;this.src='https://placehold.co/150x150/3ECF8E/000000?text=Supabase';">
+                        <p class="skill-item-name">Supabase</p>
+                    </div>
+
+                    <!-- Tools/Platforms -->
+                    <div class="skill-item">
+                        <i class="fab fa-git-alt skill-item-icon"></i>
+                        <p class="skill-item-name">Git</p>
+                    </div>
+                    <div class="skill-item">
+                        <i class="fab fa-github skill-item-icon"></i>
+                        <p class="skill-item-name">GitHub</p>
+                    </div>
+                    <div class="skill-item">
+                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vscode/vscode-original.svg" alt="VS Code icon" class="skill-item-icon">
+                        <p class="skill-item-name">VS Code</p>
+                    </div>
+                    <!-- Data Science -->
+                    <div class="skill-item">
+                        <img src="https://www.vectorlogo.zone/logos/kaggle/kaggle-icon.svg" alt="Kaggle icon" class="skill-item-icon">
+                        <p class="skill-item-name">Kaggle</p>
+                    </div>
+                    <!-- AI Tools -->
+                    <div class="skill-item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" alt="ChatGPT icon" class="skill-item-icon">
+                        <p class="skill-item-name">ChatGPT</p>
+                    </div>
+                    <div class="skill-item">
+                        <img src="gemini.png" alt="Gemini icon" class="skill-item-icon" onerror="this.onerror=null;this.src='https://placehold.co/150x150/4285F4/FFFFFF?text=Gemini';">
+                        <p class="skill-item-name">Gemini</p>
+                    </div>
+                </div>
+            </section>
+            <!-- Projects Section -->
+            <section id="projects" class="space-y-8 card p-4 md:p-8">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-center uppercase">Featured Work</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Project Card 1 -->
+                    <div class="project-card">
+                        <div class="image-container">
+                            <img src="https://placehold.co/600x600/020203/FF5500?text=Automation & N8N" alt="DriveSphere AI" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0A0A0C/FF4700?text=Healthcare+App';">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-header">
+                                <div class="project-title">
+                                    <h3 class="font-subheading">DriveSphere AI</h3>
+                                    <p>AI-based vehicle assistance </p>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/ftrudra7/DriveSphere-AI" aria-label="View Code for DriveSphere AI Project"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">View Code</span></a>
+                                    <a href="#" aria-label="Live Demo of PAN-India Healthcare Project"><i class="fas fa-external-link-alt" aria-hidden="true"></i><span class="sr-only">Live Demo</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project Card 2 -->
+                    <div class="project-card">
+                        <div class="image-container">
+                            <img src="https://placehold.co/600x600/020203/FF5500?text=StreamFlix" alt="StreamFlix Project" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0A0A0C/FF4700?text=Streaming+Clone';">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-header">
+                                <div class="project-title">
+                                    <h3 class="font-subheading">StreamFlix - Netflix Clone</h3>
+                                    <p>React & Movie APIs</p>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" aria-label="View Code for StreamFlix Project"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">View Code</span></a>
+                                    <a href="#" aria-label="Live Demo of StreamFlix Project"><i class="fas fa-external-link-alt" aria-hidden="true"></i><span class="sr-only">Live Demo</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project Card 3 -->
+                    <div class="project-card">
+                        <div class="image-container">
+                            <img src="https://placehold.co/600x600/020203/FF5500?text=AI+Shop" alt="AI E-commerce Platform Project" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0A0A0C/FF4700?text=AI+E-commerce';">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-header">
+                                <div class="project-title">
+                                    <h3 class="font-subheading">AI E-commerce Platform</h3>
+                                    <p>AI-Powered Recommendations</p>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" aria-label="View Code for AI E-commerce Platform"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">View Code</span></a>
+                                    <a href="#" aria-label="Live Demo of AI E-commerce Platform"><i class="fas fa-external-link-alt" aria-hidden="true"></i><span class="sr-only">Live Demo</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="text-center py-16 md:py-20 card p-4">
+                <h2 class="font-heading text-3xl md:text-5xl font-bold uppercase">Have a project in mind?</h2>
+                <p class="text-base sm:text-lg mt-4 mb-8 max-w-xl mx-auto" style="color: var(--text-secondary);">I'm currently available for freelance work and open to discussing new opportunities.</p>
+                <div class="flex justify-center gap-4 md:gap-6 flex-wrap">
+                    <a href="https://github.com/rudrajha" target="_blank" class="social-circle-btn" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i><span class="sr-only">GitHub</span></a>
+                    <a href="https://linkedin.com/in/rudrajha" target="_blank" class="social-circle-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i><span class="sr-only">LinkedIn</span></a>
+                    <!-- LeetCode link is a placeholder -->
+                    <a href="#" target="_blank" class="social-circle-btn" aria-label="LeetCode"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">LeetCode</span></a>
+                    <a href="https://twitter.com/rudrajha" target="_blank" class="social-circle-btn" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span class="sr-only">Twitter</span></a>
+                     <a href="#" target="_blank" class="social-circle-btn" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i><span class="sr-only">Instagram</span></a>
+                     <a href="mailto:contact@rudrajha.com" class="social-circle-btn" aria-label="Email"><i class="fas fa-envelope" aria-hidden="true"></i><span class="sr-only">Email</span></a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="flex flex-col md:flex-row justify-between items-center p-4 gap-4 mt-16 border-t border-white/10" style="color: var(--text-secondary);">
+            <div>&copy; 2024 Rudra Jha</div>
+            <div class="flex gap-6">
+                <a href="https://github.com/rudrajha" target="_blank" class="hover:text-white transition-colors">GitHub</a>
+                <a href="https://linkedin.com/in/rudrajha" target="_blank" class="hover:text-white transition-colors">LinkedIn</a>
+                <a href="https://twitter.com/rudrajha" target="_blank" class="hover:text-white transition-colors">Twitter</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Cookie Consent Popup HTML -->
+    <div id="cookie-consent-popup">
+        <p>🍪 This site uses cookies to give you the best experience. By continuing, you agree to our <a href="#">cookie policy.</a></p>
+        <div class="cookie-buttons">
+            <button id="cookie-decline-btn" class="cookie-btn decline">Decline</button>
+            <button id="cookie-accept-btn" class="cookie-btn accept">Accept</button>
+        </div>
+    </div>
+
+
+    <script>
+    // Utility function for throttling event listeners
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+    
+    // Function to dynamically load the TradingView Widget with the correct theme
+    function loadTradingViewWidget(isLightMode) {
+        const container = document.querySelector('#market-ticker .tradingview-widget-container');
+        if (!container) return;
+        
+        // Clear existing widget content to prevent duplicates/conflicts on theme change
+        container.innerHTML = '';
+        
+        // Create the widget placeholder div required by TradingView
+        const widgetDiv = document.createElement('div');
+        widgetDiv.className = 'tradingview-widget-container__widget';
+        container.appendChild(widgetDiv);
+        
+        const theme = isLightMode ? 'light' : 'dark';
+        
+        const config = {
+            "symbols": [
+                { "proName": "BSE:SENSEX", "title": "S&P BSE SENSEX" },
+                { "proName": "NSE:NIFTY", "title": "NIFTY 50" },
+                { "description": "USD/INR", "proName": "FX_IDC:USDINR" }
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": theme, // Dynamic Theme Setting
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "locale": "en"
+        };
+        
+        // Create the script element using document.createElement to ensure execution
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify(config); // The config is passed as the script's content
+        
+        container.appendChild(script);
+    }
+
+    class AuroraAnimation {
+        constructor() {
+            this.cnv = document.querySelector(`#aurora-canvas`);
+            if (!this.cnv) {
+                console.error("Aurora canvas element not found!");
+                return;
+            }
+            this.ctx = this.cnv.getContext(`2d`);
+            this.particles = [];
+            // Adjusted particle count for a smoother, less busy effect
+            this.particleCount = 10; 
+            // Using the defined accent colors for the particles
+            this.colors = ['#FF4700', '#FF7B00', '#FFB800', '#ff8800'];
+
+            this.setCanvasSize();
+            this.createParticles();
+            this.drawAnimation();
+            
+            // Debounced resize listener
+            window.addEventListener('resize', debounce(this.setCanvasSize.bind(this), 250));
+        }
+
+        setCanvasSize() {
+            this.w = this.cnv.width = innerWidth;
+            this.h = this.cnv.height = innerHeight;
+            // Re-create particles on resize to fit the new dimensions naturally
+            this.createParticles(); 
+        }
+
+        createParticles() {
+            this.particles = [];
+            for (let i = 0; i < this.particleCount; i++) {
+                // Ensure radius scales with the screen size
+                const radius = Math.random() * (Math.max(this.w, this.h) / 3) + (Math.min(this.w, this.h) / 4);
+                const x = Math.random() * this.w;
+                const y = Math.random() * this.h;
+                const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+                this.particles.push(new Particle(x, y, radius, color, this.w, this.h));
+            }
+        }
+
+        drawAnimation() {
+            this.ctx.clearRect(0, 0, this.w, this.h);
+            // 'lighter' blend mode creates the glowing effect
+            this.ctx.globalCompositeOperation = 'lighter';
+            this.particles.forEach(p => {
+                p.update();
+                p.draw(this.ctx);
+            });
+            requestAnimationFrame(this.drawAnimation.bind(this));
+        }
+    }
+
+    class Particle {
+        constructor(x, y, radius, color, w, h) {
+            this.x = x;
+            this.y = y;
+            this.radius = radius;
+            this.color = color;
+            this.w = w;
+            this.h = h;
+            // Slower movement for a calmer aurora effect
+            this.vx = (Math.random() - 0.5) * 0.1;
+            this.vy = (Math.random() - 0.5) * 0.1;
+        }
+
+        draw(ctx) {
+            // Radial gradient for the soft, fading effect
+            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+            gradient.addColorStop(0, this.color + '33'); // More opaque at the center
+            gradient.addColorStop(1, this.color + '00'); // Fully transparent at the edge
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Simple boundary reflection for continuous movement
+            if (this.x + this.radius < 0 || this.x - this.radius > this.w) {
+                this.vx *= -1;
+            }
+            if (this.y + this.radius < 0 || this.y - this.radius > this.h) {
+                this.vy *= -1;
+            }
+        }
+    }
+    
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize background and plugins first
+        const aurora = new AuroraAnimation();
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin); // Register ScrollToPlugin
+
+        // --- Smooth Scroll Logic ---
+        const navLinks = document.querySelectorAll('.nav-link, a[href^="#"]');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                // Only handle internal hash links
+                if (href && href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const targetId = href;
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        // GSAP handles the smooth scrolling
+                        gsap.to(window, {
+                            duration: 1.2,
+                            scrollTo: {
+                                y: targetElement,
+                                offsetY: 80 // Adjust for fixed header height
+                            },
+                            ease: "power3.inOut"
+                        });
+                        
+                        // Close mobile menu after clicking a link
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                             mobileMenu.classList.add('hidden');
+                        }
+                    }
+                }
+            });
+        });
+        
+        // --- Typed.js Initialization ---
+        const typed = new Typed('#typed-strings', {
+            strings: ['Frontend Developer', 'Creative Technologist', 'AI Enthusiast', 'Open Source Contributor'],
+            typeSpeed: 60,
+            backSpeed: 40,
+            loop: true,
+            cursorChar: '_',
+            // Set the cursor element to match the style of the custom intro cursor
+            // This prevents Typed.js from injecting its own style
+            onStart: (self) => {
+                const cursor = document.querySelector('.typed-cursor');
+                if(cursor) cursor.style.display = 'none'; // Hide default cursor if it appears
+            }
+        });
+
+        // --- Theme Toggle Logic ---
+        const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+        const body = document.body;
+
+        // Apply saved theme on load
+        const isLight = localStorage.getItem('theme') === 'light';
+        if (isLight) {
+            body.classList.add('light-mode');
+        }
+
+        // Load widget based on initial theme
+        loadTradingViewWidget(isLight);
+
+        const toggleTheme = () => {
+            body.classList.toggle('light-mode');
+            const isNowLight = body.classList.contains('light-mode');
+            
+            if (isNowLight) {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.removeItem('theme');
+            }
+            
+            // Reload widget with new theme
+            loadTradingViewWidget(isNowLight);
+        };
+
+        themeToggleBtns.forEach(btn => btn.addEventListener('click', toggleTheme));
+
+
+        // --- Modified Landing Animation Logic ---
+        const introOverlay = document.getElementById('intro-overlay');
+        const line1 = document.getElementById('line1');
+        const line2 = document.getElementById('line2');
+        
+        // Function to start main page animations (excluding the hero section)
+        function startMainPageAnimations() {
+            const sections = document.querySelectorAll('main section, footer');
+            sections.forEach(section => {
+                // Skip the market-ticker as it sometimes conflicts with TradingView's lazy loading
+                if(section.id === 'hero') return; 
+                gsap.from(section, {
+                    scrollTrigger: { 
+                        trigger: section, 
+                        start: 'top 85%', 
+                        toggleActions: 'play none none none' 
+                    },
+                    opacity: 0, 
+                    y: 60, 
+                    duration: 1.2, 
+                    ease: 'power3.out',
+                });
+            });
+        }
+
+        // Generic typewriter function
+        function typeWriter(text, element, speed, cursorClass, callback) {
+            let i = 0;
+            element.innerHTML = `<span class="cursor ${cursorClass}">&nbsp;</span>`;
+            const cursor = element.querySelector('.cursor');
+            
+            function type() {
+                if (i < text.length) {
+                    cursor.insertAdjacentText('beforebegin', text.charAt(i));
+                    i++;
+                    // Introduce slight random variation in speed for a more natural feel
+                    const effectiveSpeed = speed + (Math.random() * 50 - 25);
+                    setTimeout(type, effectiveSpeed);
+                } else {
+                    cursor.classList.add('hidden'); // Hide cursor when line is done
+                    if (callback) callback();
+                }
+            }
+            type();
+        }
+
+        // Check if animation has been played
+        if (sessionStorage.getItem('animationPlayed')) {
+            introOverlay.style.display = 'none';
+            startMainPageAnimations();
+        } else {
+            // Reverting to the preferred intro text structure
+            const text1 = "🙏 नमस्ते"; 
+            const text2 = "I'm Rudra Jha";
+            
+            // Animation sequence
+            setTimeout(() => {
+                typeWriter(text1, line1, 150, 'line1', () => {
+                    setTimeout(() => {
+                        // Clear line 1 and move the focus to line 2 for a stronger reveal
+                        line1.innerHTML = text1; 
+                        line1.style.color = 'white'; // Keep text1 visible
+                        typeWriter(text2, line2, 120, 'line2', () => {
+                            setTimeout(() => {
+                                introOverlay.classList.add('fade-out');
+                                introOverlay.addEventListener('transitionend', () => {
+                                    introOverlay.style.display = 'none';
+                                    startMainPageAnimations();
+                                }, { once: true });
+                            }, 1000); // Wait after all typing is done
+                        });
+                    }, 500); // Pause between lines
+                });
+            }, 500); // Initial delay
+
+            sessionStorage.setItem('animationPlayed', 'true');
+        }
+
+        // --- Mobile Menu Logic ---
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        const openMenu = () => mobileMenu.classList.remove('hidden');
+        const closeMenu = () => mobileMenu.classList.add('hidden');
+        hamburgerBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        mobileMenuLinks.forEach(link => link.addEventListener('click', closeMenu));
+        
+        // --- Spline Viewer Logic to hide logo ---
+        const splineViewer = document.querySelector('spline-viewer');
+        if (splineViewer) {
+            // Function to recursively find the iframe and hide the logo within its Shadow DOM
+            const hideSplineLogo = () => {
+                if (splineViewer.shadowRoot) {
+                    const style = document.createElement('style');
+                    // Aggressively hide the logo div within the shadow root
+                    style.innerHTML = '#logo { display: none !important; }'; 
+                    splineViewer.shadowRoot.appendChild(style);
+                } else {
+                    // Retry if shadow root is not yet available
+                    setTimeout(hideSplineLogo, 100);
+                }
+            };
+            // Start the process
+            splineViewer.addEventListener('load', hideSplineLogo);
+            hideSplineLogo(); // Initial check in case it loads very fast
+        }
+        
+        // --- Cookie Consent Logic ---
+        const cookiePopup = document.getElementById('cookie-consent-popup');
+        const acceptBtn = document.getElementById('cookie-accept-btn');
+        const declineBtn = document.getElementById('cookie-decline-btn');
+
+        // Helper function to get a cookie by name
+        const getCookie = (name) => {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        };
+
+        // Show popup if consent cookie doesn't exist
+        if (!getCookie('cookieConsent')) {
+            // Use a timeout to ensure the page has rendered before triggering the animation
+            setTimeout(() => {
+                cookiePopup.classList.add('show');
+            }, 1000); // Wait longer to avoid conflict with intro animation
+        }
+
+        // Function to set the cookie
+        const setCookie = (name, value, days) => {
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + days);
+            document.cookie = `${name}=${value}; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`;
+        };
+
+        // Event listener for the accept button
+        acceptBtn.addEventListener('click', () => {
+            setCookie('cookieConsent', 'true', 365);
+            cookiePopup.classList.remove('show');
+        });
+
+        // Event listener for the decline button - sets a short-term cookie to prevent re-popping immediately
+        declineBtn.addEventListener('click', () => {
+            setCookie('cookieConsent', 'declined', 1); // Consent expires in 1 day, will show again later
+            cookiePopup.classList.remove('show');
+        });
+    });
+    </script>
+</body>
+</html>
