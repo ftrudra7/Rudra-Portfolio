@@ -27,13 +27,14 @@
 
     <style>
         :root {
-            --bg-base: #020203;
-            --bg-card: rgba(25, 25, 30, 0.5); 
-            --border-color: rgba(255, 255, 255, 0.1);
-            --text-primary: #EDEDF0;
-            --text-secondary: #9696A0;
-            --accent-primary: #FF4700;
-            --accent-secondary: #FFB800;
+            --bg-base: #020617; /* Premium Slate-950 background */
+            --bg-card: rgba(15, 23, 42, 0.45); /* Translucent slate-900 glass overlay */
+            --border-color: rgba(96, 165, 250, 0.15); /* Sleek blue-400 border */
+            --text-primary: #F8FAFC; /* Slate-50 main text */
+            --text-secondary: #94A3B8; /* Slate-400 description text */
+            --accent-primary: #2563EB; /* Royal Blue */
+            --accent-secondary: #60A5FA; /* Soft sky blue */
+            --accent-glow: rgba(59, 130, 246, 0.35); /* Soft blue shadow glow */
             --font-heading: 'Poppins', 'Sora', sans-serif;
             --font-subheading: 'Sora', sans-serif;
             --font-body: 'Inter', sans-serif;
@@ -41,11 +42,14 @@
         }
 
         body.light-mode {
-            --bg-base: #F0F2F5;
-            --bg-card: rgba(255, 255, 255, 0.6);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --text-primary: #1a1a1a;
-            --text-secondary: #5c5c62;
+            --bg-base: #F8FAFC; /* Slate-50 background for light mode */
+            --bg-card: rgba(255, 255, 255, 0.7); /* Soft white card */
+            --border-color: rgba(37, 99, 235, 0.12); /* Subtle blue border */
+            --text-primary: #0F172A; /* Slate-900 main text */
+            --text-secondary: #475569; /* Slate-600 secondary text */
+            --accent-primary: #3B82F6; /* Blue-500 */
+            --accent-secondary: #2563EB; /* Blue-600 */
+            --accent-glow: rgba(37, 99, 235, 0.15);
         }
 
         body {
@@ -53,7 +57,44 @@
             color: var(--text-primary);
             font-family: var(--font-body);
             overflow-x: hidden;
+            position: relative;
             transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Ambient background gradients and noise */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(96, 165, 250, 0.08) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: -2;
+            transition: opacity 0.3s ease;
+        }
+        
+        body.light-mode::before {
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(96, 165, 250, 0.05) 0%, transparent 45%);
+        }
+
+        /* High-end micro-noise pattern overlay */
+        .noise-bg {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+        }
+        body.light-mode .noise-bg {
+            opacity: 0.012;
         }
         
         #aurora-canvas {
@@ -83,75 +124,96 @@
         .font-subheading { font-family: var(--font-subheading); }
 
         .card {
-            background-color: rgba(30, 30, 35, 0.25);
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 1.5rem;
-            transition: border-color 0.3s ease, background-color 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
         .card:hover {
-            background-color: rgba(35, 35, 40, 0.4);
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: rgba(96, 165, 250, 0.3);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
         }
         body.light-mode .card {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.4);
         }
         body.light-mode .card:hover {
-            background-color: rgba(255, 255, 255, 0.5);
-            border-color: rgba(0, 0, 0, 0.15);
+            background-color: rgba(255, 255, 255, 0.6);
+            border-color: rgba(37, 99, 235, 0.2);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.05);
         }
 
         /* --- New Header Styles --- */
         .header-wrapper {
-            padding: 2px; /* Controls the thickness of the gradient border */
-            border-radius: 50px; /* Pill shape */
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            box-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+            padding: 1px; /* Controls the thickness of the gradient border */
+            border-radius: 9999px; /* Pill shape */
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.2), rgba(96, 165, 250, 0.1), rgba(37, 99, 235, 0.2));
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
         .main-header {
-            background-color: rgba(10, 10, 12, 0.5);
-            border-radius: 50px;
+            background-color: rgba(15, 23, 42, 0.65);
+            border-radius: 9999px;
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.5rem;
             transition: background-color 0.3s ease;
         }
         body.light-mode .main-header {
-            background-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.7);
         }
-
 
         /* --- Glossy Button Styles with Colored Shadow on Hover --- */
         .cta-btn {
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
             font-weight: 500;
-            padding: 0.8rem 1.75rem;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: none; /* Shadow removed from default state */
+            padding: 0.75rem 1.6rem;
+            border-radius: 9999px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
             text-align: center;
         }
         .cta-btn:hover {
-            transform: scale(1.05);
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
-            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4); /* Shadow added on hover */
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(96, 165, 250, 0.4);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
         }
         .cta-btn.primary {
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
             border: none;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+        .cta-btn.primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
         }
         .cta-btn.secondary {
             background: transparent;
             color: var(--text-primary);
             border-color: var(--border-color);
         }
-        body.light-mode .cta-btn.secondary {
-            border-color: var(--border-color);
+        body.light-mode .cta-btn {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+        body.light-mode .cta-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+        body.light-mode .cta-btn.primary {
+            color: #fff;
         }
 
         .header-name {
@@ -159,26 +221,25 @@
             font-size: 1.5rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
         }
         .header-name:hover {
-            text-shadow: 0 0 15px var(--accent-primary);
-            color: #fff;
+            text-shadow: 0 0 15px var(--accent-secondary);
+            color: var(--accent-secondary);
         }
         
         /* --- Project Card Styles with Shadow on Hover --- */
         .project-card {
-            background-color: rgba(10, 10, 12, 0.4);
-            border-radius: 1.75rem;
+            background-color: rgba(15, 23, 42, 0.3);
+            border-radius: 1.5rem;
             padding: 1rem;
-            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            box-shadow: none; /* Shadow removed from default state */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid var(--border-color);
         }
         .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 15px 30px rgba(255, 107, 0, 0.4); /* Shadow added on hover */
+            transform: translateY(-8px);
+            border-color: rgba(96, 165, 250, 0.35);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.15);
         }
         .project-card .image-container {
             position: relative;
@@ -275,18 +336,26 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: none;
             color: var(--text-secondary);
             font-size: 1.25rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .social-circle-btn:hover {
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: #fff;
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 20px var(--accent-glow);
+            border-color: transparent;
+        }
+        body.light-mode .social-circle-btn {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(37, 99, 235, 0.12);
+        }
+        body.light-mode .social-circle-btn:hover {
+            color: #fff;
         }
         @media (min-width: 640px) {
             .social-circle-btn {
@@ -312,9 +381,9 @@
         #intro-overlay {
             position: fixed;
             inset: 0;
-            background-color: rgba(2, 2, 3, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background-color: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 100;
             display: flex;
             justify-content: center;
@@ -342,28 +411,28 @@
             font-size: clamp(2rem, 7vw, 4rem);
             font-weight: 400;
             margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, #FFD200, #FF7E00);
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: #FFD200;
+            color: var(--accent-secondary);
         }
 
         #line2 {
             font-family: var(--font-heading);
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 600;
-            background: linear-gradient(90deg, #FFD200, #FF7E00);
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: #FFD200;
+            color: var(--accent-secondary);
         }
 
         .cursor {
             display: inline-block;
             width: 4px;
-            background: linear-gradient(90deg, #FFD200, #FF7E00);
+            background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
             margin-left: 8px;
             animation: blink 0.7s infinite;
             /* Match the height of the line it's on */
@@ -388,108 +457,95 @@
         .skill-tag {
             display: inline-block;
             padding: 0.5rem 1.25rem;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(96, 165, 250, 0.05);
+            border: 1px solid rgba(96, 165, 250, 0.2);
             border-radius: 50px;
-            color: var(--text-secondary);
+            color: var(--accent-secondary);
             font-weight: 500;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
         .skill-tag:hover {
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+            background: rgba(96, 165, 250, 0.1);
+            border-color: rgba(96, 165, 250, 0.4);
             color: var(--text-primary);
         }
 
-        /* --- New Skills Section Styles --- */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjusted min-width for mobile */
-            gap: 1rem;
-        }
-        @media (min-width: 640px) {
-            .skills-container {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-                gap: 1.5rem;
-            }
-        }
-
-
-        .skill-item {
-            background-color: var(--bg-card);
+        /* --- New Skills Section Styles (Pills and Categories) --- */
+        .skills-category-card {
+            background: rgba(15, 23, 42, 0.25);
             border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .skills-category-card:hover {
+            border-color: rgba(96, 165, 250, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.06);
+            background: rgba(15, 23, 42, 0.35);
+        }
+        body.light-mode .skills-category-card {
+            background: rgba(255, 255, 255, 0.35);
+        }
+        body.light-mode .skills-category-card:hover {
+            background: rgba(255, 255, 255, 0.55);
+            border-color: rgba(37, 99, 235, 0.2);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.04);
+        }
+
+        .skill-pill {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            aspect-ratio: 1 / 1;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            text-align: center;
-        }
-        @media (min-width: 640px) {
-            .skill-item {
-                padding: 1.5rem;
-                gap: 1rem;
-            }
-        }
-
-
-        .skill-item:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 25px rgba(255, 107, 0, 0.3);
-            background-color: rgba(35, 35, 40, 0.7);
-        }
-        body.light-mode .skill-item:hover {
-            box-shadow: 0 10px 25px rgba(255, 107, 0, 0.4);
-            background-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .skill-item .skill-item-icon {
-            font-size: 2rem; /* For Font Awesome icons */
-            height: 2rem; /* For img tags */
-            width: 2rem; /* For img tags */
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-        @media (min-width: 640px) {
-            .skill-item .skill-item-icon {
-                font-size: 2.5rem; 
-                height: 2.5rem; 
-                width: 2.5rem;
-            }
-        }
-
-
-        .skill-item:hover .skill-item-icon {
+            gap: 0.5rem;
+            padding: 0.4rem 0.9rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
             color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        
+        .skill-pill img {
+            width: 1.25rem;
+            height: 1.25rem;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-pill i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-pill:hover {
+            transform: translateY(-2px);
+            background: rgba(96, 165, 250, 0.08);
+            border-color: rgba(96, 165, 250, 0.35);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            color: #fff;
+        }
+        
+        .skill-pill:hover img, .skill-pill:hover i {
             transform: scale(1.1);
         }
         
-        /* Specific color overrides for icons that need it */
-        .skill-item .fa-js { color: #f7df1e; }
-        .skill-item .fa-html5 { color: #e34f26; }
-        .skill-item .fa-css3-alt { color: #1572b6; }
-        .skill-item .fa-git-alt { color: #f34f29; }
-        .skill-item .fa-github, body.light-mode .skill-item .fa-github { color: var(--text-primary); }
-
-
-        .skill-item .skill-item-name {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.875rem;
-            text-align: center;
-            transition: color 0.3s ease;
-        }
-
-        .skill-item:hover .skill-item-name {
+        body.light-mode .skill-pill {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(37, 99, 235, 0.1);
             color: var(--text-primary);
+        }
+        body.light-mode .skill-pill:hover {
+            background: rgba(37, 99, 235, 0.04);
+            border-color: rgba(37, 99, 235, 0.3);
+            color: var(--accent-primary);
         }
 
         /* --- Theme Toggle Button --- */
@@ -607,6 +663,160 @@
             }
         }
 
+        /* --- Education Timeline Styles --- */
+        .timeline-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 2.5rem;
+        }
+        
+        .timeline-wrapper::before {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-primary), rgba(96, 165, 250, 0.15));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-node {
+            position: absolute;
+            left: calc(-2.5rem + 1px);
+            top: 0.35rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--bg-base);
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10;
+        }
+
+        .timeline-item:hover .timeline-node {
+            transform: scale(1.35);
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 15px var(--accent-secondary);
+        }
+
+        /* --- Achievements & Certifications Grid --- */
+        .achievement-grid, .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* --- GitHub Contribution Calendar styles --- */
+        .github-calendar-wrapper {
+            overflow-x: auto;
+            width: 100%;
+            padding: 1.5rem 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(96, 165, 250, 0.2) transparent;
+        }
+
+        .github-calendar-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .github-calendar-wrapper::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .github-calendar-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(96, 165, 250, 0.25);
+            border-radius: 9999px;
+        }
+
+        .github-grid-container {
+            display: flex;
+            flex-direction: column;
+            width: max-content;
+            margin: 0 auto;
+        }
+
+        .github-grid {
+            display: grid;
+            grid-auto-flow: column;
+            grid-template-rows: repeat(7, 10px);
+            gap: 3px;
+        }
+
+        .github-square {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            background-color: #111827;
+            transition: transform 0.15s ease, background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .github-square:hover {
+            transform: scale(1.3);
+            outline: 1px solid rgba(255, 255, 255, 0.5);
+            z-index: 20;
+        }
+
+        .github-months-row {
+            display: flex;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            position: relative;
+            height: 1rem;
+        }
+
+        .github-month-label {
+            position: absolute;
+            transform: translateX(-50%);
+        }
+
+        .github-legend {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 1.25rem;
+            padding-right: 0.5rem;
+        }
+
+        .github-legend-square {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        /* Tooltip styles */
+        .gh-tooltip {
+            position: fixed;
+            background: rgba(15, 23, 42, 0.95);
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            pointer-events: none;
+            z-index: 1000;
+            border: 1px solid rgba(96, 165, 250, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            display: none;
+            transform: translate(-50%, -100%);
+            margin-top: -8px;
+            white-space: nowrap;
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -622,12 +832,12 @@
     </div>
 
     <!-- Mobile Navigation Menu -->
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-black/90 backdrop-blur-xl z-[99] flex-col items-center justify-center space-y-8">
-        <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-white">&times;</button>
-        <a href="#projects" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="projects">Work</a>
-        <a href="#skills" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="skills">Skills</a>
-        <a href="#about" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="about">About</a>
-        <a href="#contact" class="text-2xl font-subheading hover:text-orange-400 transition-colors nav-link" data-section="contact">Contact</a>
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-slate-950/95 backdrop-blur-2xl z-[99] flex-col items-center justify-center space-y-8">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-white" aria-label="Close navigation menu">&times;</button>
+        <a href="#projects" class="text-2xl font-subheading hover:text-blue-400 transition-colors nav-link" data-section="projects">Work</a>
+        <a href="#skills" class="text-2xl font-subheading hover:text-blue-400 transition-colors nav-link" data-section="skills">Skills</a>
+        <a href="#about" class="text-2xl font-subheading hover:text-blue-400 transition-colors nav-link" data-section="about">About</a>
+        <a href="#contact" class="text-2xl font-subheading hover:text-blue-400 transition-colors nav-link" data-section="contact">Contact</a>
         <div class="flex items-center gap-4 mt-4">
             <button id="mobile-theme-toggle" class="theme-toggle-btn text-3xl">
                 <i id="mobile-moon-icon" class="fas fa-moon"></i>
@@ -667,10 +877,10 @@
             <section id="hero">
                 <div class="hero-text">
                     <span class="skill-tag mb-4 inline-block">B.Tech Undergraduate</span>
-                    <h1 class="font-heading text-4xl sm:text-5xl md:text-7xl font-bold leading-tight uppercase">Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400"><br>Rudra Jha</span></h1>
+                    <h1 class="font-heading text-4xl sm:text-5xl md:text-7xl font-bold leading-tight uppercase">Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-400 to-sky-400"><br>Rudra Jha</span></h1>
                     <!-- Container for the typing animation -->
                     <div class="mt-2 min-h-[40px] md:min-h-[50px]">
-                        <span id="typed-strings" class="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400"></span>
+                        <span id="typed-strings" class="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-indigo-400 to-sky-400"></span>
                     </div>
                     <p class="text-base sm:text-lg mt-4 mb-8 max-w-lg mx-auto md:mx-0" style="color: var(--text-secondary);">
                         I craft exceptional digital experiences with code, creativity, and a passion for innovation.
@@ -695,183 +905,290 @@
 
             <!-- About Section -->
             <section id="about" class="card p-6 md:p-8">
-                <div class="flex flex-col md:flex-row items-start gap-6 md:gap-8">
-                        <img src="picofme.png" alt="Rudra Jha" class="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-white/10 flex-shrink-0 mx-auto md:mx-0" onerror="this.onerror=null;this.src='https://placehold.co/150x150/0A0A0C/FF4700?text=RJ';">
+                <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10">
+                        <img src="picofme.png" alt="Rudra Jha" class="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-blue-500/20 shadow-lg shadow-blue-500/10 flex-shrink-0 mx-auto md:mx-0 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/150x150/0F172A/3B82F6?text=RJ';">
                         <div>
-                            <h2 class="font-heading text-3xl font-bold mb-4 uppercase text-center md:text-left">About Me</h2>
+                            <h2 class="font-heading text-3xl font-bold mb-6 uppercase text-center md:text-left text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">About Me</h2>
                             <div class="space-y-4 text-base sm:text-lg leading-relaxed" style="color: var(--text-secondary);">
-                                <p>I’m a Computer Science engineer focused on building real-world software — from clean frontends to scalable backend systems.
-
-I work primarily with full-stack web technologies and enjoy turning ideas into functional products. My interests lie in backend development, system design basics, and applied AI — especially where automation and practical impact meet.
-
-I’ve built multiple projects covering authentication systems, dashboards, APIs, and data-driven applications, and I’m continuously improving my problem-solving skills through DSA and hands-on development.
-
-Right now, I’m actively preparing for software roles and internships, with a clear goal: write clean code, ship meaningful products, and grow into a strong engineer.</p>
+                                <p>I’m a Computer Science engineer focused on building real-world software — from clean, responsive frontends to robust, scalable backend systems.</p>
+                                <p>I work primarily with full-stack web technologies and enjoy turning ideas into functional products. My interests lie in backend development, system design basics, and applied AI — especially where automation and practical impact meet.</p>
+                                <p>I’ve built multiple projects covering authentication systems, interactive dashboards, API services, and data-driven applications, and I’m continuously improving my problem-solving skills through Data Structures & Algorithms (DSA) and hands-on development.</p>
+                                <p>Right now, I’m actively preparing for software roles and internships with a clear goal: write clean code, ship meaningful products, and grow into a strong, impactful engineer.</p>
                             </div>
                         </div>
                     </div>
             </section>
             
-            <!-- Updated Skills Section -->
+            <!-- Skills Section -->
             <section id="skills" class="card p-6 md:p-8">
-                <h2 class="font-heading text-3xl md:text-4xl font-bold text-center uppercase mb-8 md:mb-12">My Skills</h2>
-                <div class="skills-container">
-                    <!-- Languages -->
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="C icon" class="skill-item-icon">
-                        <p class="skill-item-name">C</p>
-                    </div>
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" alt="C++ icon" class="skill-item-icon">
-                        <p class="skill-item-name">C++</p>
-                    </div>
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="Java icon" class="skill-item-icon">
-                        <p class="skill-item-name">Java</p>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-js skill-item-icon"></i>
-                        <p class="skill-item-name">JavaScript</p>
-                    </div>
-                    <!-- New: Python -->
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python icon" class="skill-item-icon">
-                        <p class="skill-item-name">Python</p>
-                    </div>
+                <h2 class="font-heading text-3xl md:text-4xl font-bold text-center uppercase mb-8 md:mb-12 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">My Skills</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     
-                    <!-- Frontend/Web -->
-                    <div class="skill-item">
-                        <i class="fab fa-html5 skill-item-icon"></i>
-                        <p class="skill-item-name">HTML5</p>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-css3-alt skill-item-icon"></i>
-                        <p class="skill-item-name">CSS3</p>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-react skill-item-icon" style="color: #61DAFB;"></i>
-                        <p class="skill-item-name">React.js</p>
-                    </div>
-                    <!-- 3D/Visualization -->
-                    <div class="skill-item">
-                        <img src="3js.png" alt="Three.js icon" class="skill-item-icon" onerror="this.onerror=null;this.src='https://placehold.co/150x150/000000/FFFFFF?text=ThreeJS';">
-                        <p class="skill-item-name">Three.js</p>
+                    <!-- Programming Languages -->
+                    <div class="skills-category-card flex flex-col gap-4">
+                        <h3 class="font-subheading text-lg font-semibold text-blue-400 flex items-center gap-2">
+                            <i class="fas fa-code" aria-hidden="true"></i> Programming Languages
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java logo">
+                                <span>Java</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python logo">
+                                <span>Python</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript logo">
+                                <span>JavaScript</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5 logo">
+                                <span>HTML5</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3 logo">
+                                <span>CSS3</span>
+                            </span>
+                        </div>
                     </div>
 
-                    <!-- Backend/Runtime -->
-                    <!-- New: FastAPI -->
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" alt="FastAPI icon" class="skill-item-icon">
-                        <p class="skill-item-name">FastAPI</p>
+                    <!-- Frameworks -->
+                    <div class="skills-category-card flex flex-col gap-4">
+                        <h3 class="font-subheading text-lg font-semibold text-blue-400 flex items-center gap-2">
+                            <i class="fas fa-layer-group" aria-hidden="true"></i> Frameworks & Libraries
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React logo">
+                                <span>React</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" alt="FastAPI logo">
+                                <span>FastAPI</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg" alt="NumPy logo">
+                                <span>NumPy</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" alt="Pandas logo">
+                                <span>Pandas</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg" alt="Matplotlib logo">
+                                <span>Matplotlib</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikit-learn/scikit-learn-original.svg" alt="Scikit-learn logo">
+                                <span>Scikit-learn</span>
+                            </span>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <i class="fab fa-node-js skill-item-icon" style="color: #339933;"></i>
-                        <p class="skill-item-name">Node.js</p>
+
+                    <!-- Development -->
+                    <div class="skills-category-card flex flex-col gap-4">
+                        <h3 class="font-subheading text-lg font-semibold text-blue-400 flex items-center gap-2">
+                            <i class="fas fa-tools" aria-hidden="true"></i> Development Tools
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code logo">
+                                <span>VS Code</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg" alt="Vite logo">
+                                <span>Vite</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://www.vectorlogo.zone/logos/google_colab/google_colab-icon.svg" alt="Google Colab logo">
+                                <span>Google Colab</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" alt="Jupyter logo">
+                                <span>Jupyter</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="Postman logo">
+                                <span>Postman</span>
+                            </span>
+                        </div>
                     </div>
-                    
+
                     <!-- Databases -->
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="PostgreSQL icon" class="skill-item-icon">
-                        <p class="skill-item-name">PostgreSQL</p>
-                    </div>
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" alt="MySQL icon" class="skill-item-icon">
-                        <p class="skill-item-name">MySQL</p>
-                    </div>
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="MongoDB icon" class="skill-item-icon">
-                        <p class="skill-item-name">MongoDB</p>
-                    </div>
-                    <div class="skill-item">
-                        <img src="supabase.png" alt="Supabase icon" class="skill-item-icon" onerror="this.onerror=null;this.src='https://placehold.co/150x150/3ECF8E/000000?text=Supabase';">
-                        <p class="skill-item-name">Supabase</p>
+                    <div class="skills-category-card flex flex-col gap-4">
+                        <h3 class="font-subheading text-lg font-semibold text-blue-400 flex items-center gap-2">
+                            <i class="fas fa-database" aria-hidden="true"></i> Databases
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL logo">
+                                <span>MySQL</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL logo">
+                                <span>PostgreSQL</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="supabase.png" alt="Supabase logo" onerror="this.onerror=null;this.src='https://placehold.co/150x150/3ECF8E/000000?text=S';">
+                                <span>Supabase</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://avatars.githubusercontent.com/u/74697361?s=200&v=4" alt="Neon logo">
+                                <span>Neon</span>
+                            </span>
+                        </div>
                     </div>
 
-                    <!-- Tools/Platforms -->
-                    <div class="skill-item">
-                        <i class="fab fa-git-alt skill-item-icon"></i>
-                        <p class="skill-item-name">Git</p>
+                    <!-- Cloud -->
+                    <div class="skills-category-card flex flex-col gap-4">
+                        <h3 class="font-subheading text-lg font-semibold text-blue-400 flex items-center gap-2">
+                            <i class="fas fa-cloud" aria-hidden="true"></i> Cloud & Version Control
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-pill">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git logo">
+                                <span>Git</span>
+                            </span>
+                            <span class="skill-pill">
+                                <i class="fab fa-github text-primary" aria-hidden="true"></i>
+                                <span>GitHub</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg" alt="Google Cloud logo">
+                                <span>Google Cloud</span>
+                            </span>
+                            <span class="skill-pill">
+                                <img src="https://www.vectorlogo.zone/logos/cloudinary/cloudinary-icon.svg" alt="Cloudinary logo">
+                                <span>Cloudinary</span>
+                            </span>
+                            <span class="skill-pill">
+                                <svg class="w-4 h-4 fill-current text-primary" viewBox="0 0 24 24" aria-hidden="true" style="width:1.25rem; height:1.25rem;"><path d="M24 22.525H0L12 1.475L24 22.525Z"/></svg>
+                                <span>Vercel</span>
+                            </span>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <i class="fab fa-github skill-item-icon"></i>
-                        <p class="skill-item-name">GitHub</p>
+
+                    <!-- Computer Science -->
+                    <div class="skills-category-card flex flex-col gap-4">
+                        <h3 class="font-subheading text-lg font-semibold text-blue-400 flex items-center gap-2">
+                            <i class="fas fa-graduation-cap" aria-hidden="true"></i> Computer Science
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-pill">
+                                <i class="fas fa-project-diagram text-blue-400" aria-hidden="true"></i>
+                                <span>DSA</span>
+                            </span>
+                            <span class="skill-pill">
+                                <i class="fas fa-cubes text-blue-400" aria-hidden="true"></i>
+                                <span>OOP</span>
+                            </span>
+                            <span class="skill-pill">
+                                <i class="fas fa-desktop text-blue-400" aria-hidden="true"></i>
+                                <span>Operating Systems</span>
+                            </span>
+                            <span class="skill-pill">
+                                <i class="fas fa-database text-blue-400" aria-hidden="true"></i>
+                                <span>DBMS</span>
+                            </span>
+                            <span class="skill-pill">
+                                <i class="fas fa-network-wired text-blue-400" aria-hidden="true"></i>
+                                <span>Computer Networks</span>
+                            </span>
+                            <span class="skill-pill">
+                                <i class="fas fa-cogs text-blue-400" aria-hidden="true"></i>
+                                <span>Software Engineering</span>
+                            </span>
+                        </div>
                     </div>
-                    <div class="skill-item">
-                        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vscode/vscode-original.svg" alt="VS Code icon" class="skill-item-icon">
-                        <p class="skill-item-name">VS Code</p>
-                    </div>
-                    <!-- Data Science -->
-                    <div class="skill-item">
-                        <img src="https://www.vectorlogo.zone/logos/kaggle/kaggle-icon.svg" alt="Kaggle icon" class="skill-item-icon">
-                        <p class="skill-item-name">Kaggle</p>
-                    </div>
-                    <!-- AI Tools -->
-                    <div class="skill-item">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" alt="ChatGPT icon" class="skill-item-icon">
-                        <p class="skill-item-name">ChatGPT</p>
-                    </div>
-                    <div class="skill-item">
-                        <img src="gemini.png" alt="Gemini icon" class="skill-item-icon" onerror="this.onerror=null;this.src='https://placehold.co/150x150/4285F4/FFFFFF?text=Gemini';">
-                        <p class="skill-item-name">Gemini</p>
-                    </div>
+
                 </div>
             </section>
             <!-- Projects Section -->
             <section id="projects" class="space-y-8 card p-4 md:p-8">
                 <h2 class="font-heading text-3xl md:text-4xl font-bold text-center uppercase">Featured Work</h2>
                 <div class="grid md:grid-cols-3 gap-6">
-                    <!-- Project Card 1 -->
-                    <div class="project-card">
-                        <div class="image-container">
-                            <img src="https://placehold.co/600x600/020203/FF5500?text=Automation & N8N" alt="DriveSphere AI" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0A0A0C/FF4700?text=Healthcare+App';">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <div class="project-title">
-                                    <h3 class="font-subheading">DriveSphere AI</h3>
-                                    <p>AI-based vehicle assistance </p>
-                                </div>
-                                <div class="project-links">
-                                    <a href="https://github.com/ftrudra7/DriveSphere-AI" aria-label="View Code for DriveSphere AI Project"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">View Code</span></a>
-                                    <a href="#" aria-label="Live Demo of PAN-India Healthcare Project"><i class="fas fa-external-link-alt" aria-hidden="true"></i><span class="sr-only">Live Demo</span></a>
+                    <!-- Project Card 1: QuickAI -->
+                    <div class="project-card flex flex-col justify-between">
+                        <div>
+                            <div class="image-container">
+                                <img src="https://placehold.co/600x600/0f172a/3b82f6?text=QuickAI+SaaS" alt="QuickAI Platform" loading="lazy">
+                            </div>
+                            <div class="project-info">
+                                <h3 class="font-subheading text-xl font-bold mb-1 text-slate-100">QuickAI</h3>
+                                <p class="text-xs text-blue-400 mb-3 font-semibold uppercase tracking-wider">Full-Stack AI SaaS</p>
+                                <p class="text-sm leading-relaxed mb-4 text-slate-400">Developed a full-stack AI SaaS platform featuring article & blog generation, resume review, AI image creation, background removal, and secure Clerk subscription management.</p>
+                                <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">React</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Groq AI</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">PostgreSQL</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Clerk</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="flex gap-3 px-2 mt-auto">
+                            <a href="https://github.com/ftrudra7/QuickAI" class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-2" target="_blank" aria-label="View QuickAI source code">
+                                <i class="fab fa-github" aria-hidden="true"></i> Code
+                            </a>
+                            <a href="#" class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-2" target="_blank" aria-label="View QuickAI live demo">
+                                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo
+                            </a>
                         </div>
                     </div>
-                    <!-- Project Card 2 -->
-                    <div class="project-card">
-                        <div class="image-container">
-                            <img src="https://placehold.co/600x600/020203/FF5500?text=StreamFlix" alt="StreamFlix Project" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0A0A0C/FF4700?text=Streaming+Clone';">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <div class="project-title">
-                                    <h3 class="font-subheading">StreamFlix - Netflix Clone</h3>
-                                    <p>React & Movie APIs</p>
-                                </div>
-                                <div class="project-links">
-                                    <a href="#" aria-label="View Code for StreamFlix Project"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">View Code</span></a>
-                                    <a href="#" aria-label="Live Demo of StreamFlix Project"><i class="fas fa-external-link-alt" aria-hidden="true"></i><span class="sr-only">Live Demo</span></a>
+
+                    <!-- Project Card 2: DriveSphere AI -->
+                    <div class="project-card flex flex-col justify-between">
+                        <div>
+                            <div class="image-container">
+                                <img src="https://placehold.co/600x600/0f172a/3b82f6?text=DriveSphere+AI" alt="DriveSphere AI" loading="lazy">
+                            </div>
+                            <div class="project-info">
+                                <h3 class="font-subheading text-xl font-bold mb-1 text-slate-100">DriveSphere AI</h3>
+                                <p class="text-xs text-blue-400 mb-3 font-semibold uppercase tracking-wider">AI Vehicle Assistant</p>
+                                <p class="text-sm leading-relaxed mb-4 text-slate-400">Built an autonomous vehicle scheduling & predictive maintenance system. Leverages n8n workflows integrated with LangChain micro-agents to plan diagnostics and failure forecasts.</p>
+                                <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">n8n</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">LangChain</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Python</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Predictive AI</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="flex gap-3 px-2 mt-auto">
+                            <a href="https://github.com/ftrudra7/DriveSphere-AI" class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-2" target="_blank" aria-label="View DriveSphere AI source code">
+                                <i class="fab fa-github" aria-hidden="true"></i> Code
+                            </a>
+                            <a href="#" class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-2" target="_blank" aria-label="View DriveSphere AI live demo">
+                                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo
+                            </a>
                         </div>
                     </div>
-                    <!-- Project Card 3 -->
-                    <div class="project-card">
-                        <div class="image-container">
-                            <img src="https://placehold.co/600x600/020203/FF5500?text=AI+Shop" alt="AI E-commerce Platform Project" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/600x600/0A0A0C/FF4700?text=AI+E-commerce';">
-                        </div>
-                        <div class="project-info">
-                            <div class="project-header">
-                                <div class="project-title">
-                                    <h3 class="font-subheading">AI E-commerce Platform</h3>
-                                    <p>AI-Powered Recommendations</p>
-                                </div>
-                                <div class="project-links">
-                                    <a href="#" aria-label="View Code for AI E-commerce Platform"><i class="fas fa-code" aria-hidden="true"></i><span class="sr-only">View Code</span></a>
-                                    <a href="#" aria-label="Live Demo of AI E-commerce Platform"><i class="fas fa-external-link-alt" aria-hidden="true"></i><span class="sr-only">Live Demo</span></a>
+
+                    <!-- Project Card 3: Transcripto -->
+                    <div class="project-card flex flex-col justify-between">
+                        <div>
+                            <div class="image-container">
+                                <img src="https://placehold.co/600x600/0f172a/3b82f6?text=Transcripto+AI" alt="Transcripto AI" loading="lazy">
+                            </div>
+                            <div class="project-info">
+                                <h3 class="font-subheading text-xl font-bold mb-1 text-slate-100">Transcripto</h3>
+                                <p class="text-xs text-blue-400 mb-3 font-semibold uppercase tracking-wider">AI Speech & Sign Tool</p>
+                                <p class="text-sm leading-relaxed mb-4 text-slate-400">Created a real-time speech-to-text transcription system featuring automated text summarization and a sign-language to text pipeline to promote software accessibility.</p>
+                                <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Speech-to-Text</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Summarizer</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Python</span>
+                                    <span class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Accessibility</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="flex gap-3 px-2 mt-auto">
+                            <a href="https://github.com/ftrudra7/Transcripto" class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-2" target="_blank" aria-label="View Transcripto source code">
+                                <i class="fab fa-github" aria-hidden="true"></i> Code
+                            </a>
+                            <a href="#" class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-2" target="_blank" aria-label="View Transcripto live demo">
+                                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1095,7 +1412,7 @@ Right now, I’m actively preparing for software roles and internships, with a c
         
         // --- Typed.js Initialization ---
         const typed = new Typed('#typed-strings', {
-            strings: ['Frontend Developer', 'Creative Technologist', 'AI Enthusiast', 'Open Source Contributor'],
+            strings: ['MERN Stack Developer', 'Gen AI Enthusiast', 'Full Stack Developer • DSA Enthusiast', 'Aspiring Software Engineer'],
             typeSpeed: 60,
             backSpeed: 40,
             loop: true,
