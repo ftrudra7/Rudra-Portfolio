@@ -104,20 +104,14 @@
 
         body.light-mode {
             --bg-base: #F8FAFC;
-            /* Slate-50 background for light mode */
-            --bg-card: rgba(255, 255, 255, 0.7);
-            /* Soft white card */
+            --bg-secondary: #EEF4FF;
+            --bg-card: rgba(255, 255, 255, 0.72);
             --border-color: rgba(37, 99, 235, 0.12);
-            /* Subtle blue border */
             --text-primary: #0F172A;
-            /* Slate-900 main text */
             --text-secondary: #475569;
-            /* Slate-600 secondary text */
             --accent-primary: #3B82F6;
-            /* Blue-500 */
             --accent-secondary: #2563EB;
-            /* Blue-600 */
-            --accent-glow: rgba(37, 99, 235, 0.15);
+            --accent-glow: rgba(37, 99, 235, 0.18);
         }
 
         body {
@@ -146,8 +140,9 @@
 
         body.light-mode::before {
             background-image:
-                radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 85% 75%, rgba(96, 165, 250, 0.05) 0%, transparent 45%);
+                radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 60%);
         }
 
         /* High-end micro-noise pattern overlay */
@@ -215,13 +210,16 @@
         }
 
         body.light-mode .card {
-            background-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 2px 16px rgba(37, 99, 235, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
         body.light-mode .card:hover {
-            background-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.82);
             border-color: rgba(37, 99, 235, 0.2);
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.05);
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         /* --- New Header Styles --- */
@@ -245,7 +243,25 @@
         }
 
         body.light-mode .main-header {
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 8px rgba(37, 99, 235, 0.06);
+        }
+
+        body.light-mode .header-wrapper {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.1), rgba(96, 165, 250, 0.06), rgba(37, 99, 235, 0.1));
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.06);
+        }
+
+        body.light-mode .header-name {
+            color: #0F172A;
+            text-shadow: none;
+        }
+
+        body.light-mode .header-name:hover {
+            text-shadow: 0 0 12px rgba(37, 99, 235, 0.2);
+            color: var(--accent-primary);
         }
 
         /* --- Glossy Button Styles with Colored Shadow on Hover --- */
@@ -291,17 +307,30 @@
         }
 
         body.light-mode .cta-btn {
-            background: rgba(0, 0, 0, 0.02);
+            background: rgba(255, 255, 255, 0.6);
             border-color: rgba(37, 99, 235, 0.15);
+            color: #0F172A;
+            box-shadow: 0 1px 4px rgba(37, 99, 235, 0.06);
         }
 
         body.light-mode .cta-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.85);
             border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
         }
 
         body.light-mode .cta-btn.primary {
             color: #fff;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        body.light-mode .cta-btn.primary:hover {
+            box-shadow: 0 6px 24px rgba(37, 99, 235, 0.35);
+        }
+
+        body.light-mode .cta-btn.secondary {
+            background: rgba(255, 255, 255, 0.5);
+            border-color: rgba(37, 99, 235, 0.15);
         }
 
         .header-name {
@@ -457,12 +486,15 @@
         }
 
         body.light-mode .social-circle-btn {
-            background: rgba(0, 0, 0, 0.02);
+            background: rgba(255, 255, 255, 0.6);
             border-color: rgba(37, 99, 235, 0.12);
+            color: #475569;
+            box-shadow: 0 1px 4px rgba(37, 99, 235, 0.06);
         }
 
         body.light-mode .social-circle-btn:hover {
             color: #fff;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2);
         }
 
         @media (min-width: 640px) {
@@ -611,13 +643,16 @@
         }
 
         body.light-mode .skills-category-card {
-            background: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.04);
         }
 
         body.light-mode .skills-category-card:hover {
-            background: rgba(255, 255, 255, 0.55);
-            border-color: rgba(37, 99, 235, 0.2);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.04);
+            background: rgba(255, 255, 255, 0.75);
+            border-color: rgba(37, 99, 235, 0.22);
+            box-shadow: 0 8px 28px rgba(37, 99, 235, 0.08);
         }
 
         .skill-pill {
@@ -662,15 +697,17 @@
         }
 
         body.light-mode .skill-pill {
-            background: rgba(0, 0, 0, 0.02);
+            background: rgba(255, 255, 255, 0.55);
             border-color: rgba(37, 99, 235, 0.1);
             color: var(--text-primary);
+            box-shadow: 0 1px 3px rgba(37, 99, 235, 0.04);
         }
 
         body.light-mode .skill-pill:hover {
-            background: rgba(37, 99, 235, 0.04);
+            background: rgba(255, 255, 255, 0.85);
             border-color: rgba(37, 99, 235, 0.3);
             color: var(--accent-primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
         }
 
         /* --- Theme Toggle Button --- */
@@ -807,59 +844,39 @@
             }
         }
 
-        /* --- Education Timeline Styles --- */
-        .timeline-wrapper {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-            padding-left: 2.5rem;
+
+        /* --- Achievements & Certifications --- */
+        .achievement-card {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .timeline-wrapper::before {
-            content: "";
-            position: absolute;
-            left: 7px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--accent-primary), rgba(96, 165, 250, 0.15));
+        .achievement-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(96, 165, 250, 0.3);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.12), 0 0 0 1px rgba(96, 165, 250, 0.1);
+            background: rgba(15, 23, 42, 0.45);
         }
 
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3.5rem;
+        body.light-mode .achievement-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.04);
         }
 
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-node {
-            position: absolute;
-            left: calc(-2.5rem + 1px);
-            top: 0.35rem;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background-color: var(--bg-base);
-            border: 2px solid var(--accent-primary);
-            box-shadow: 0 0 10px var(--accent-glow);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 10;
-        }
-
-        .timeline-item:hover .timeline-node {
-            transform: scale(1.35);
-            border-color: var(--accent-secondary);
-            box-shadow: 0 0 15px var(--accent-secondary);
-        }
-
-        /* --- Achievements & Certifications Grid --- */
-        .achievement-grid,
-        .cert-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+        body.light-mode .achievement-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.1);
         }
 
         /* --- GitHub Contribution Calendar styles --- */
@@ -985,6 +1002,129 @@
             margin-top: -8px;
             white-space: nowrap;
         }
+
+        /* --- Light Mode: Project Cards --- */
+        body.light-mode .project-card {
+            background-color: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 1px 6px rgba(37, 99, 235, 0.04);
+        }
+
+        body.light-mode .project-card:hover {
+            background-color: rgba(255, 255, 255, 0.75);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.1);
+        }
+
+        /* --- Light Mode: Aurora Canvas & Background --- */
+        body.light-mode #aurora-canvas {
+            opacity: 0.15;
+        }
+
+        /* --- Light Mode: Typography Overrides for hardcoded Tailwind classes --- */
+        body.light-mode .text-slate-100 {
+            color: #0F172A !important;
+        }
+
+        body.light-mode .text-slate-400 {
+            color: #475569 !important;
+        }
+
+        body.light-mode .text-gray-300 {
+            color: #475569 !important;
+        }
+
+        body.light-mode .text-white {
+            color: #0F172A !important;
+        }
+
+        body.light-mode nav a {
+            color: #475569;
+        }
+
+        body.light-mode nav a:hover {
+            color: var(--accent-primary) !important;
+        }
+
+        /* --- Light Mode: Intro Overlay --- */
+        body.light-mode #intro-overlay {
+            background-color: rgba(248, 250, 252, 0.92);
+        }
+
+        /* --- Light Mode: Cookie Popup --- */
+        body.light-mode #cookie-consent-popup {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(238, 244, 255, 0.95));
+            border: 1px solid rgba(37, 99, 235, 0.12);
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.1);
+        }
+
+        body.light-mode #cookie-consent-popup p {
+            color: #475569;
+        }
+
+        body.light-mode #cookie-consent-popup p a {
+            color: var(--accent-primary);
+        }
+
+        body.light-mode .cookie-btn.decline {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        /* --- Light Mode: GitHub Calendar --- */
+        body.light-mode .github-square {
+            background-color: #E2E8F0 !important;
+        }
+
+        body.light-mode .github-square[data-level="1"] {
+            background-color: #93C5FD !important;
+        }
+
+        body.light-mode .github-square[data-level="2"] {
+            background-color: #60A5FA !important;
+        }
+
+        body.light-mode .github-square[data-level="3"] {
+            background-color: #3B82F6 !important;
+        }
+
+        body.light-mode .github-square[data-level="4"] {
+            background-color: #2563EB !important;
+        }
+
+        body.light-mode .gh-tooltip {
+            background: rgba(255, 255, 255, 0.95);
+            color: #0F172A;
+            border-color: rgba(37, 99, 235, 0.15);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.1);
+        }
+
+        /* --- Light Mode: Footer --- */
+        body.light-mode footer {
+            border-color: rgba(37, 99, 235, 0.08);
+        }
+
+        body.light-mode footer a:hover {
+            color: var(--accent-primary) !important;
+        }
+
+        /* --- Light Mode: Mobile Menu --- */
+        body.light-mode #mobile-menu {
+            background-color: rgba(248, 250, 252, 0.97) !important;
+        }
+
+        body.light-mode #mobile-menu a {
+            color: #0F172A;
+        }
+
+        body.light-mode #mobile-menu a:hover {
+            color: var(--accent-primary) !important;
+        }
+
+        body.light-mode #close-menu-btn {
+            color: #0F172A;
+        }
     </style>
 </head>
 
@@ -1011,8 +1151,6 @@
             data-section="skills">Skills</a>
         <a href="#projects" class="text-xl font-subheading hover:text-blue-400 transition-colors nav-link"
             data-section="projects">Work</a>
-        <a href="#education" class="text-xl font-subheading hover:text-blue-400 transition-colors nav-link"
-            data-section="education">Education</a>
         <a href="#achievements-certifications"
             class="text-xl font-subheading hover:text-blue-400 transition-colors nav-link"
             data-section="achievements-certifications">Achievements</a>
@@ -1039,7 +1177,6 @@
                     <a href="#about" class="hover:text-white transition-colors nav-link">About</a>
                     <a href="#skills" class="hover:text-white transition-colors nav-link">Skills</a>
                     <a href="#projects" class="hover:text-white transition-colors nav-link">Work</a>
-                    <a href="#education" class="hover:text-white transition-colors nav-link">Education</a>
                     <a href="#achievements-certifications"
                         class="hover:text-white transition-colors nav-link">Achievements</a>
                     <a href="#contact" class="hover:text-white transition-colors nav-link">Contact</a>
@@ -1464,78 +1601,6 @@
                 </div>
             </section>
 
-            <!-- Education Section -->
-            <section id="education" class="card p-6 md:p-10 space-y-8">
-                <h2
-                    class="font-heading text-3xl md:text-4xl font-bold text-center uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">
-                    Education</h2>
-
-                <div class="timeline-wrapper">
-                    <!-- B.Tech -->
-                    <div class="timeline-item">
-                        <div class="timeline-node"></div>
-                        <div class="skills-category-card p-5">
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                                <h3 class="font-heading text-lg font-bold text-slate-100">Greater Noida Institute of
-                                    Technology</h3>
-                                <span
-                                    class="text-xs font-semibold px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full w-max">Sept
-                                    2024 – Present</span>
-                            </div>
-                            <h4 class="text-sm font-medium text-blue-400 mb-2">Bachelor of Technology (CSE – AI)</h4>
-                            <p class="text-sm text-slate-400">Greater Noida, Uttar Pradesh</p>
-                        </div>
-                    </div>
-
-                    <!-- Diploma -->
-                    <div class="timeline-item">
-                        <div class="timeline-node"></div>
-                        <div class="skills-category-card p-5">
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                                <h3 class="font-heading text-lg font-bold text-slate-100">Maharaja Agrasen Himalayan
-                                    Garhwal University</h3>
-                                <span
-                                    class="text-xs font-semibold px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full w-max">Jul
-                                    2021 – Jun 2024</span>
-                            </div>
-                            <h4 class="text-sm font-medium text-blue-400 mb-2">Diploma in Computer Science</h4>
-                            <p class="text-sm text-slate-400">Pauri Garhwal, Uttarakhand</p>
-                        </div>
-                    </div>
-
-                    <!-- Class XII -->
-                    <div class="timeline-item">
-                        <div class="timeline-node"></div>
-                        <div class="skills-category-card p-5">
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                                <h3 class="font-heading text-lg font-bold text-slate-100">Senior Secondary School (Class
-                                    XII)</h3>
-                                <span
-                                    class="text-xs font-semibold px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full w-max">2019
-                                    – 2021</span>
-                            </div>
-                            <h4 class="text-sm font-medium text-blue-400 mb-2">Higher Secondary Certificate</h4>
-                            <p class="text-sm text-slate-400">CBSE / State Board</p>
-                        </div>
-                    </div>
-
-                    <!-- Class X -->
-                    <div class="timeline-item">
-                        <div class="timeline-node"></div>
-                        <div class="skills-category-card p-5">
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                                <h3 class="font-heading text-lg font-bold text-slate-100">Secondary School (Class X)
-                                </h3>
-                                <span
-                                    class="text-xs font-semibold px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full w-max">2017
-                                    – 2019</span>
-                            </div>
-                            <h4 class="text-sm font-medium text-blue-400 mb-2">Secondary School Certificate</h4>
-                            <p class="text-sm text-slate-400">CBSE / State Board</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- Achievements & Certifications Section -->
             <section id="achievements-certifications" class="card p-6 md:p-8 space-y-8">
@@ -1544,7 +1609,7 @@
                     Achievements & Certifications</h2>
                 <div class="grid md:grid-cols-3 gap-6">
                     <!-- Card 1: EY Techathon 6.0 -->
-                    <div class="skills-category-card flex flex-col justify-between p-6">
+                    <div class="achievement-card">
                         <div>
                             <span
                                 class="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full font-medium inline-block mb-3">Achievement</span>
@@ -1560,7 +1625,7 @@
                     </div>
 
                     <!-- Card 2: Indian Patent -->
-                    <div class="skills-category-card flex flex-col justify-between p-6">
+                    <div class="achievement-card">
                         <div>
                             <span
                                 class="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full font-medium inline-block mb-3">Published
@@ -1578,7 +1643,7 @@
                     </div>
 
                     <!-- Card 3: Design Registration -->
-                    <div class="skills-category-card flex flex-col justify-between p-6">
+                    <div class="achievement-card">
                         <div>
                             <span
                                 class="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-full font-medium inline-block mb-3">Government
@@ -2142,25 +2207,14 @@
                     });
                 });
 
-                // Stagger reveal for education timeline items
-                gsap.from('.timeline-item', {
-                    scrollTrigger: {
-                        trigger: '#education',
-                        start: 'top 75%'
-                    },
-                    opacity: 0,
-                    x: -30,
-                    duration: 0.8,
-                    stagger: 0.25,
-                    ease: 'power2.out'
-                });
 
                 // Stagger reveal for achievements & certifications cards
-                gsap.from('#achievements-certifications .skills-category-card', {
+                gsap.from('#achievements-certifications .achievement-card', {
                     scrollTrigger: {
                         trigger: '#achievements-certifications',
                         start: 'top 75%'
                     },
+                    immediateRender: false,
                     opacity: 0,
                     y: 40,
                     duration: 0.8,
