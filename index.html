@@ -1289,7 +1289,7 @@
         body.light-mode #cookie-consent-popup p a {
             color: var(--accent-primary);
         }
-        
+
         body.light-mode #cookie-consent-popup p a:hover {
             color: var(--accent-secondary);
         }
@@ -1309,7 +1309,7 @@
             color: #0F172A;
             background: rgba(255, 255, 255, 0.5);
         }
-        
+
         body.light-mode .cookie-btn.decline:hover {
             background: rgba(255, 255, 255, 0.9);
             border-color: rgba(37, 99, 235, 0.4);
@@ -1511,11 +1511,11 @@
                             About Me</h2>
                         <div class="space-y-4 text-base sm:text-lg leading-relaxed"
                             style="color: var(--text-secondary);">
-                            <p>I’m a Computer Science engineer focused on building real-world software — from clean,
+                            <p>I’m a Computer Science engineer focused on building real-world software from clean,
                                 responsive frontends to robust, scalable backend systems.</p>
                             <p>I work primarily with full-stack web technologies and enjoy turning ideas into functional
                                 products. My interests lie in backend development, system design basics, and applied AI
-                                — especially where automation and practical impact meet.</p>
+                                especially where automation and practical impact meet.</p>
                             <p>I’ve built multiple projects covering authentication systems, interactive dashboards, API
                                 services, and data-driven applications, and I’m continuously improving my
                                 problem-solving skills through Data Structures & Algorithms (DSA) and hands-on
@@ -2195,16 +2195,16 @@
         };
 
         function initProofLinks() {
-                document.querySelectorAll('a[data-proof-key]').forEach(btn => {
-                    const key = btn.getAttribute('data-proof-key');
-                    if (key && achievementLinks[key]) {
-                        btn.href = achievementLinks[key];
-                        if (achievementLinks[key] !== "#") {
-                            btn.target = "_blank";
-                            btn.rel = "noopener noreferrer";
-                        }
+            document.querySelectorAll('a[data-proof-key]').forEach(btn => {
+                const key = btn.getAttribute('data-proof-key');
+                if (key && achievementLinks[key]) {
+                    btn.href = achievementLinks[key];
+                    if (achievementLinks[key] !== "#") {
+                        btn.target = "_blank";
+                        btn.rel = "noopener noreferrer";
                     }
-                });
+                }
+            });
         }
 
         // --- GitHub Activity Calendar Fetching & Rendering ---
