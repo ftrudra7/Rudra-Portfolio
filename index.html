@@ -1376,6 +1376,36 @@
         body.light-mode #close-menu-btn {
             color: #0F172A;
         }
+
+        /* Prevent horizontal scroll issues from GSAP or overlapping elements */
+        body, html {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* Fallback for Spline Hero Visual */
+        .hero-visual {
+            background: radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 60%);
+        }
+
+        /* --- Mobile Performance & Layout Optimizations --- */
+        @media (max-width: 768px) {
+            .noise-bg {
+                display: none !important;
+            }
+            .card {
+                backdrop-filter: blur(8px) !important;
+                -webkit-backdrop-filter: blur(8px) !important;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+            }
+            #mobile-menu {
+                backdrop-filter: blur(12px) !important;
+                -webkit-backdrop-filter: blur(12px) !important;
+            }
+            .hero-visual {
+                display: none !important; /* Extremely heavy Spline viewer hidden on mobile */
+            }
+        }
     </style>
 </head>
 
@@ -1422,7 +1452,7 @@
         <div class="header-wrapper sticky top-4 z-50">
             <header class="main-header flex justify-between items-center">
                 <a href="#" class="header-name nav-link">RUDRA JHA</a>
-                <nav class="hidden md:flex items-center gap-6 font-medium text-gray-300 text-sm">
+                <nav class="hidden lg:flex items-center gap-6 font-medium text-gray-300 text-sm">
                     <a href="#about" class="hover:text-white transition-colors nav-link">About</a>
                     <a href="#skills" class="hover:text-white transition-colors nav-link">Skills</a>
                     <a href="#projects" class="hover:text-white transition-colors nav-link">Projects</a>
@@ -1430,13 +1460,13 @@
                         class="hover:text-white transition-colors nav-link">Achievements</a>
                     <a href="#contact" class="hover:text-white transition-colors nav-link">Contact</a>
                 </nav>
-                <div class="hidden md:flex items-center gap-4">
+                <div class="hidden lg:flex items-center gap-4">
                     <button id="theme-toggle" class="theme-toggle-btn">
                         <i id="moon-icon" class="fas fa-moon"></i>
                         <i id="sun-icon" class="fas fa-sun"></i>
                     </button>
                 </div>
-                <button id="hamburger-btn" class="md:hidden text-2xl p-2" aria-label="Open navigation menu">
+                <button id="hamburger-btn" class="lg:hidden text-2xl p-2" aria-label="Open navigation menu">
                     <i class="fas fa-bars"></i>
                 </button>
             </header>
@@ -1485,10 +1515,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <!-- Added data-no-logo attribute to hide the Spline logo if possible through viewer API -->
-                    <spline-viewer url="https://prod.spline.design/4QVs1v7zKNlNjAyC/scene.splinecode"
-                        data-no-logo></spline-viewer>
+                <div class="hero-visual" id="hero-visual-container">
+                    <!-- Spline Viewer dynamically injected via JS on desktop only -->
                 </div>
             </section>
 
@@ -1502,7 +1530,7 @@
             <!-- About Section -->
             <section id="about" class="card p-6 md:p-8">
                 <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10">
-                    <img src="picofme.png" alt="Rudra Jha"
+                    <img loading="lazy" src="picofme.png" alt="Rudra Jha"
                         class="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-blue-500/20 shadow-lg shadow-blue-500/10 flex-shrink-0 mx-auto md:mx-0 object-cover"
                         onerror="this.onerror=null;this.src='https://placehold.co/150x150/0F172A/3B82F6?text=RJ';">
                     <div>
@@ -1542,27 +1570,27 @@
                         </h3>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
                                     alt="Java logo">
                                 <span>Java</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
                                     alt="Python logo">
                                 <span>Python</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
                                     alt="JavaScript logo">
                                 <span>JavaScript</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
                                     alt="HTML5 logo">
                                 <span>HTML5</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
                                     alt="CSS3 logo">
                                 <span>CSS3</span>
                             </span>
@@ -1576,32 +1604,32 @@
                         </h3>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
                                     alt="React logo">
                                 <span>React</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg"
                                     alt="FastAPI logo">
                                 <span>FastAPI</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg"
                                     alt="NumPy logo">
                                 <span>NumPy</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg"
                                     alt="Pandas logo">
                                 <span>Pandas</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matplotlib/matplotlib-original.svg"
                                     alt="Matplotlib logo">
                                 <span>Matplotlib</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikit-learn/scikit-learn-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikit-learn/scikit-learn-original.svg"
                                     alt="Scikit-learn logo">
                                 <span>Scikit-learn</span>
                             </span>
@@ -1615,27 +1643,27 @@
                         </h3>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
                                     alt="VS Code logo">
                                 <span>VS Code</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg"
                                     alt="Vite logo">
                                 <span>Vite</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://www.vectorlogo.zone/logos/google_colab/google_colab-icon.svg"
+                                <img loading="lazy" src="https://www.vectorlogo.zone/logos/google_colab/google_colab-icon.svg"
                                     alt="Google Colab logo">
                                 <span>Google Colab</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg"
                                     alt="Jupyter logo">
                                 <span>Jupyter</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg"
+                                <img loading="lazy" src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg"
                                     alt="Postman logo">
                                 <span>Postman</span>
                             </span>
@@ -1649,22 +1677,22 @@
                         </h3>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
                                     alt="MySQL logo">
                                 <span>MySQL</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
                                     alt="PostgreSQL logo">
                                 <span>PostgreSQL</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="supabase.png" alt="Supabase logo"
+                                <img loading="lazy" src="supabase.png" alt="Supabase logo"
                                     onerror="this.onerror=null;this.src='https://placehold.co/150x150/3ECF8E/000000?text=S';">
                                 <span>Supabase</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://avatars.githubusercontent.com/u/74697361?s=200&v=4" alt="Neon logo">
+                                <img loading="lazy" src="https://avatars.githubusercontent.com/u/74697361?s=200&v=4" alt="Neon logo">
                                 <span>Neon</span>
                             </span>
                         </div>
@@ -1677,7 +1705,7 @@
                         </h3>
                         <div class="flex flex-wrap gap-2">
                             <span class="skill-pill">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                                <img loading="lazy" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
                                     alt="Git logo">
                                 <span>Git</span>
                             </span>
@@ -1686,12 +1714,12 @@
                                 <span>GitHub</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg"
+                                <img loading="lazy" src="https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg"
                                     alt="Google Cloud logo">
                                 <span>Google Cloud</span>
                             </span>
                             <span class="skill-pill">
-                                <img src="https://www.vectorlogo.zone/logos/cloudinary/cloudinary-icon.svg"
+                                <img loading="lazy" src="https://www.vectorlogo.zone/logos/cloudinary/cloudinary-icon.svg"
                                     alt="Cloudinary logo">
                                 <span>Cloudinary</span>
                             </span>
@@ -1748,7 +1776,7 @@
                     <div class="project-card flex flex-col justify-between">
                         <div>
                             <div class="image-container">
-                                <img src="https://placehold.co/600x600/0f172a/3b82f6?text=QuickAI+SaaS"
+                                <img loading="lazy" src="https://placehold.co/600x600/0f172a/3b82f6?text=QuickAI+SaaS"
                                     alt="QuickAI Platform" loading="lazy">
                             </div>
                             <div class="project-info">
@@ -1789,7 +1817,7 @@
                     <div class="project-card flex flex-col justify-between">
                         <div>
                             <div class="image-container">
-                                <img src="https://placehold.co/600x600/0f172a/3b82f6?text=DriveSphere+AI"
+                                <img loading="lazy" src="https://placehold.co/600x600/0f172a/3b82f6?text=DriveSphere+AI"
                                     alt="DriveSphere AI" loading="lazy">
                             </div>
                             <div class="project-info">
@@ -1830,7 +1858,7 @@
                     <div class="project-card flex flex-col justify-between">
                         <div>
                             <div class="image-container">
-                                <img src="https://placehold.co/600x600/0f172a/3b82f6?text=Transcripto+AI"
+                                <img loading="lazy" src="https://placehold.co/600x600/0f172a/3b82f6?text=Transcripto+AI"
                                     alt="Transcripto AI" loading="lazy">
                             </div>
                             <div class="project-info">
@@ -2097,6 +2125,8 @@
 
         class AuroraAnimation {
             constructor() {
+                if (window.innerWidth <= 768) return; // Prevent heavy rendering on mobile
+
                 this.cnv = document.querySelector(`#aurora-canvas`);
                 if (!this.cnv) {
                     console.error("Aurora canvas element not found!");
@@ -2111,6 +2141,9 @@
 
                 this.setCanvasSize();
                 this.createParticles();
+                
+                // Bind drawAnimation to save GC overhead by preventing new closures on every frame
+                this.drawAnimation = this.drawAnimation.bind(this);
                 this.drawAnimation();
 
                 // Debounced resize listener
@@ -2144,7 +2177,7 @@
                     p.update();
                     p.draw(this.ctx);
                 });
-                requestAnimationFrame(this.drawAnimation.bind(this));
+                requestAnimationFrame(this.drawAnimation);
             }
         }
 
@@ -2208,6 +2241,8 @@
         }
 
         // --- GitHub Activity Calendar Fetching & Rendering ---
+        let githubScrollTrigger = null; // Store trigger globally to prevent GSAP leaks
+        
         async function loadGitHubContributions() {
             const calendarBody = document.getElementById('github-calendar-body');
             const countLabel = document.getElementById('github-contributions-count');
@@ -2380,7 +2415,12 @@
                 calendarBody.appendChild(grid);
 
                 if (typeof gsap !== 'undefined') {
-                    gsap.from('.github-calendar-grid .github-square:not(.empty)', {
+                    // Kill existing ScrollTrigger if it exists to prevent memory leaks during re-render
+                    if (githubScrollTrigger) {
+                        githubScrollTrigger.kill();
+                    }
+                    
+                    const anim = gsap.from('.github-calendar-grid .github-square:not(.empty)', {
                         scrollTrigger: {
                             trigger: '#github-activity',
                             start: 'top 80%',
@@ -2395,6 +2435,8 @@
                         },
                         ease: 'back.out(1.2)'
                     });
+                    
+                    githubScrollTrigger = anim.scrollTrigger;
                 }
             }
 
@@ -2459,6 +2501,44 @@
             initProofLinks();
             loadGitHubContributions();
 
+            // --- Desktop Only Optimizations ---
+            if (window.innerWidth > 768) {
+                const heroVisual = document.getElementById('hero-visual-container');
+                if (heroVisual) {
+                    heroVisual.innerHTML = '<spline-viewer url="https://prod.spline.design/4QVs1v7zKNlNjAyC/scene.splinecode" data-no-logo></spline-viewer>';
+                }
+            }
+
+            // --- Mobile Menu Toggle Logic ---
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('flex');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            }
+            
+            if (closeMenuBtn && mobileMenu) {
+                closeMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                    document.body.style.overflow = '';
+                });
+            }
+
+            // Close mobile menu on desktop resize
+            window.addEventListener('resize', debounce(() => {
+                if (window.innerWidth >= 1024 && mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }
+            }, 250));
+
             // --- Smooth Scroll Logic ---
             const navLinks = document.querySelectorAll('.nav-link, a[href^="#"]');
 
@@ -2485,6 +2565,8 @@
                             // Close mobile menu after clicking a link
                             if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
                                 mobileMenu.classList.add('hidden');
+                                mobileMenu.classList.remove('flex');
+                                document.body.style.overflow = '';
                             }
                         }
                     }
@@ -2640,16 +2722,7 @@
                 sessionStorage.setItem('animationPlayed', 'true');
             }
 
-            // --- Mobile Menu Logic ---
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const closeMenuBtn = document.getElementById('close-menu-btn');
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            const openMenu = () => mobileMenu.classList.remove('hidden');
-            const closeMenu = () => mobileMenu.classList.add('hidden');
-            hamburgerBtn.addEventListener('click', openMenu);
-            closeMenuBtn.addEventListener('click', closeMenu);
-            mobileMenuLinks.forEach(link => link.addEventListener('click', closeMenu));
+
 
             // --- Spline Viewer Logic to hide logo ---
             const splineViewer = document.querySelector('spline-viewer');
