@@ -1411,6 +1411,479 @@
                 /* Extremely heavy Spline viewer hidden on mobile */
             }
         }
+
+        /* --- New Features CSS: Carousel, Modals, Command Palette, Performance, Architecture --- */
+
+        /* Carousel Navigation */
+        .carousel-nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-nav-btn:hover:not(:disabled) {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            color: var(--accent-primary);
+        }
+
+        .carousel-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        body.light-mode .carousel-nav-btn {
+            background: rgba(15, 23, 42, 0.05);
+            border-color: rgba(15, 23, 42, 0.1);
+            color: #0F172A;
+        }
+
+        .projects-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .projects-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .projects-carousel>.project-card {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+        }
+
+        @media (min-width: 768px) {
+            .projects-carousel>.project-card {
+                flex: 0 0 calc(50% - 0.75rem);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .projects-carousel>.project-card {
+                flex: 0 0 calc(33.333% - 1rem);
+            }
+        }
+
+        /* Generic Modal Styling */
+        .feature-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 1rem;
+        }
+
+        .feature-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .feature-modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-modal-overlay.active .feature-modal-content {
+            transform: scale(1);
+        }
+
+        body.light-mode .feature-modal-overlay {
+            background: rgba(248, 250, 252, 0.85);
+        }
+
+        body.light-mode .feature-modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal-btn:hover {
+            color: var(--text-primary);
+        }
+
+        /* CMD Terminal */
+        .cmd-floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .cmd-floating-btn:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .cmd-floating-btn::after {
+            content: 'Open Command Prompt';
+            position: absolute;
+            right: calc(100% + 1rem);
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .cmd-floating-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #cmd-terminal-modal .feature-modal-content {
+            max-width: 800px;
+            padding: 0;
+            background: #0c0c0c;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            height: 65vh;
+            min-height: 400px;
+        }
+
+        .cmd-terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #e5e5e5;
+            padding: 0.25rem 0.75rem;
+            border-bottom: 1px solid #111;
+            flex-shrink: 0;
+        }
+
+        .cmd-terminal-title {
+            color: #000;
+            font-size: 0.75rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .cmd-terminal-close {
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 1.25rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0 0.4rem;
+            border-radius: 2px;
+            transition: background 0.1s ease;
+        }
+
+        .cmd-terminal-close:hover {
+            background: #e81123;
+            color: #fff;
+        }
+
+        .cmd-terminal-body {
+            padding: 1rem;
+            flex: 1;
+            overflow-y: auto;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #cccccc;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cmd-terminal-body::-webkit-scrollbar {
+            width: 12px;
+            background: #0c0c0c;
+        }
+        .cmd-terminal-body::-webkit-scrollbar-thumb {
+            background: #333;
+            border: 3px solid #0c0c0c;
+            border-radius: 6px;
+        }
+        .cmd-terminal-body::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .cmd-terminal-output {
+            margin-bottom: 0.5rem;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+
+        .cmd-terminal-input-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .cmd-prompt {
+            color: #cccccc;
+            white-space: nowrap;
+        }
+
+        .cmd-terminal-input {
+            background: transparent;
+            border: none;
+            color: #cccccc;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 0.9rem;
+            flex: 1;
+            outline: none;
+            width: 100%;
+        }
+
+        /* Responsive Terminal adjustments */
+        @media (max-width: 768px) {
+            #cmd-terminal-modal .feature-modal-content {
+                height: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+            .cmd-floating-btn {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+            .cmd-terminal-body {
+                font-size: 0.8rem;
+            }
+            .cmd-terminal-input {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Project Deep Dive */
+        .deep-dive-content-wrapper {
+            max-width: 900px;
+            padding: 2.5rem;
+        }
+
+        .deep-dive-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .deep-dive-body {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .deep-dive-section h4 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .deep-dive-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Architecture Diagram Editorial Style */
+        .arch-diagram-editorial {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            padding: 2.5rem 1rem;
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+        }
+
+        .arch-node-editorial {
+            padding: 0.75rem 1.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            text-align: center;
+            min-width: 220px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .arch-node-editorial:hover {
+            border-color: rgba(96, 165, 250, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .arch-node-title {
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .arch-node-tech {
+            font-size: 0.75rem;
+            color: var(--accent-secondary);
+            margin-top: 0.3rem;
+        }
+
+        .arch-node-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            display: none;
+            line-height: 1.4;
+        }
+
+        .arch-node-editorial:hover .arch-node-desc {
+            display: block;
+        }
+
+        .arch-arrow-editorial {
+            color: rgba(96, 165, 250, 0.3);
+            font-size: 1.2rem;
+        }
+
+        /* Deep Dive Accordions */
+        .deep-dive-accordion {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .accordion-btn {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .accordion-btn:hover {
+            color: var(--accent-secondary);
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .accordion-btn[aria-expanded="true"] .accordion-icon {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content-inner {
+            padding-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        body.light-mode .arch-diagram-editorial {
+            background: rgba(255, 255, 255, 0.5);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .arch-node-editorial {
+            background: #ffffff;
+            border-color: rgba(37, 99, 235, 0.2);
+            color: var(--text-primary);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .deep-dive-accordion {
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .accordion-icon {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+
     </style>
 </head>
 
@@ -1796,15 +2269,25 @@
                 </div>
             </section>
             <!-- Projects Section -->
-            <section id="projects" class="space-y-8 card p-4 md:p-8">
-                <h2 class="font-heading text-3xl md:text-4xl font-bold text-center uppercase">Projects</h2>
-                <div class="grid md:grid-cols-3 gap-6">
+            <section id="projects" class="space-y-6 card p-4 md:p-8 relative">
+                <div class="flex justify-between items-center px-2 mb-2">
+                    <h2 class="font-heading text-3xl md:text-4xl font-bold uppercase m-0">Projects</h2>
+                    <div class="flex gap-2">
+                        <button id="carousel-prev" class="carousel-nav-btn" aria-label="Previous project" disabled>
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <button id="carousel-next" class="carousel-nav-btn" aria-label="Next project">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="projects-container" class="projects-carousel">
                     <!-- Project Card 1: QuickAI -->
                     <div class="project-card flex flex-col justify-between">
                         <div>
                             <div class="image-container">
                                 <img loading="lazy" src="https://placehold.co/600x600/0f172a/3b82f6?text=QuickAI+SaaS"
-                                    alt="QuickAI Platform" loading="lazy">
+                                    alt="QuickAI Platform">
                             </div>
                             <div class="project-info">
                                 <h3 class="font-subheading text-xl font-bold mb-1 text-slate-100">QuickAI</h3>
@@ -1826,17 +2309,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex gap-3 px-2 mt-auto">
+                        <div class="flex gap-2 px-2 mt-auto">
                             <a href="https://github.com/ftrudra7/QuickAI"
-                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-2"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
                                 target="_blank" aria-label="View QuickAI source code">
                                 <i class="fab fa-github" aria-hidden="true"></i> Code
                             </a>
                             <a href="https://quick-ai-sage-zeta.vercel.app/"
-                                class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-2"
+                                class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
                                 target="_blank" aria-label="View QuickAI live demo">
                                 <i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo
                             </a>
+                            <button onclick="openProjectModal('quickai')"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
+                                aria-label="View Architecture">
+                                <i class="fas fa-layer-group" aria-hidden="true"></i> Details
+                            </button>
                         </div>
                     </div>
 
@@ -1845,7 +2333,7 @@
                         <div>
                             <div class="image-container">
                                 <img loading="lazy" src="https://placehold.co/600x600/0f172a/3b82f6?text=DriveSphere+AI"
-                                    alt="DriveSphere AI" loading="lazy">
+                                    alt="DriveSphere AI">
                             </div>
                             <div class="project-info">
                                 <h3 class="font-subheading text-xl font-bold mb-1 text-slate-100">DriveSphere AI</h3>
@@ -1867,17 +2355,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex gap-3 px-2 mt-auto">
+                        <div class="flex gap-2 px-2 mt-auto">
                             <a href="https://github.com/ftrudra7/DriveSphere-AI"
-                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-2"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
                                 target="_blank" aria-label="View DriveSphere AI source code">
                                 <i class="fab fa-github" aria-hidden="true"></i> Code
                             </a>
                             <a href="https://github.com/ftrudra7/DriveSphere-AI"
-                                class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-2"
+                                class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
                                 target="_blank" aria-label="View DriveSphere AI live demo">
                                 <i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo
                             </a>
+                            <button onclick="openProjectModal('drivesphere')"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
+                                aria-label="View Architecture">
+                                <i class="fas fa-layer-group" aria-hidden="true"></i> Details
+                            </button>
                         </div>
                     </div>
 
@@ -1886,7 +2379,7 @@
                         <div>
                             <div class="image-container">
                                 <img loading="lazy" src="https://placehold.co/600x600/0f172a/3b82f6?text=Transcripto+AI"
-                                    alt="Transcripto AI" loading="lazy">
+                                    alt="Transcripto AI">
                             </div>
                             <div class="project-info">
                                 <h3 class="font-subheading text-xl font-bold mb-1 text-slate-100">Transcripto</h3>
@@ -1907,17 +2400,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex gap-3 px-2 mt-auto">
+                        <div class="flex gap-2 px-2 mt-auto">
                             <a href="https://github.com/ftrudra7/Transcripto"
-                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-2"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
                                 target="_blank" aria-label="View Transcripto source code">
                                 <i class="fab fa-github" aria-hidden="true"></i> Code
                             </a>
                             <a href="https://github.com/ftrudra7/Transcripto"
-                                class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-2"
+                                class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
                                 target="_blank" aria-label="View Transcripto live demo">
                                 <i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo
                             </a>
+                            <button onclick="openProjectModal('transcripto')"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
+                                aria-label="View Architecture">
+                                <i class="fas fa-layer-group" aria-hidden="true"></i> Details
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -2080,6 +2578,48 @@
         </div>
     </div>
 
+    <!-- New Features Modals Container -->
+    <div id="feature-modals-container">
+        <!-- Project Deep Dive Modal -->
+        <div id="deep-dive-modal" class="feature-modal-overlay">
+            <div class="feature-modal-content deep-dive-content-wrapper">
+                <button class="close-modal-btn" onclick="closeModal('deep-dive-modal')"
+                    aria-label="Close Project Deep Dive">&times;</button>
+                <div class="deep-dive-header">
+                    <h3 id="deep-dive-title" class="font-heading text-2xl md:text-3xl font-bold uppercase text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300">Project Details</h3>
+                    <p id="deep-dive-subtitle" class="text-slate-400 text-sm mt-2"></p>
+                </div>
+                <div class="deep-dive-body" id="deep-dive-content">
+                    <!-- Dynamic Deep Dive Content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Windows CMD Terminal Modal -->
+        <div id="cmd-terminal-modal" class="feature-modal-overlay">
+            <div class="feature-modal-content">
+                <div class="cmd-terminal-header">
+                    <div class="cmd-terminal-title">
+                        <i class="fas fa-terminal" style="font-size: 0.75rem;"></i>
+                        Command Prompt
+                    </div>
+                    <button class="cmd-terminal-close" onclick="closeModal('cmd-terminal-modal')" aria-label="Close Terminal">&times;</button>
+                </div>
+                <div class="cmd-terminal-body" id="cmd-terminal-body">
+                    <div class="cmd-terminal-output" id="cmd-output"></div>
+                    <div class="cmd-terminal-input-line">
+                        <span class="cmd-prompt">C:\Rudra\Portfolio&gt;</span>
+                        <input type="text" id="cmd-input" class="cmd-terminal-input" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Command Prompt Trigger -->
+    <button id="cmd-trigger-btn" class="cmd-floating-btn" aria-label="Open Command Prompt" onclick="openCmdTerminal()">
+        <i class="fas fa-terminal"></i>
+    </button>
 
     <script>
         // Global Email Function
@@ -2699,10 +3239,15 @@
                 let i = 0;
                 element.innerHTML = `<span class="cursor ${cursorClass}">&nbsp;</span>`;
                 const cursor = element.querySelector('.cursor');
+                const charArray = Array.from(text);
 
                 function type() {
-                    if (i < text.length) {
-                        cursor.insertAdjacentText('beforebegin', text.charAt(i));
+                    if (i < charArray.length) {
+                        try {
+                            cursor.insertAdjacentText('beforebegin', charArray[i]);
+                        } catch (e) {
+                            console.error('Typing error:', e);
+                        }
                         i++;
                         // Introduce slight random variation in speed for a more natural feel
                         const effectiveSpeed = speed + (Math.random() * 50 - 25);
@@ -2715,16 +3260,29 @@
                 type();
             }
 
-            // Check if animation has been played
-            if (sessionStorage.getItem('animationPlayed')) {
+            // Check if animation has been played or user prefers reduced motion
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (sessionStorage.getItem('animationPlayed') || prefersReducedMotion) {
                 introOverlay.style.display = 'none';
                 startMainPageAnimations();
+                sessionStorage.setItem('animationPlayed', 'true');
             } else {
                 // Reverting to the preferred intro text structure
                 const text1 = "🙏 नमस्ते";
                 const text2 = "I'm Rudra Jha";
 
+                let introFinished = false;
+                const finishIntro = () => {
+                    if (introFinished) return;
+                    introFinished = true;
+                    introOverlay.style.display = 'none';
+                    startMainPageAnimations();
+                    sessionStorage.setItem('animationPlayed', 'true');
+                };
 
+                // Failsafe: if animation takes longer than 6 seconds, reveal the portfolio automatically
+                const failsafeTimeout = setTimeout(finishIntro, 6000);
 
                 // Animation sequence
                 setTimeout(() => {
@@ -2735,21 +3293,16 @@
                             line1.style.color = 'white'; // Keep text1 visible
                             typeWriter(text2, line2, 120, 'line2', () => {
                                 setTimeout(() => {
+                                    if (introFinished) return;
+                                    clearTimeout(failsafeTimeout);
                                     introOverlay.classList.add('fade-out');
-                                    introOverlay.addEventListener('transitionend', () => {
-                                        introOverlay.style.display = 'none';
-                                        startMainPageAnimations();
-                                    }, { once: true });
+                                    introOverlay.addEventListener('transitionend', finishIntro, { once: true });
                                 }, 1000); // Wait after all typing is done
                             });
                         }, 500); // Pause between lines
                     });
                 }, 500); // Initial delay
-
-                sessionStorage.setItem('animationPlayed', 'true');
             }
-
-
 
             // --- Spline Viewer Logic to hide logo ---
             const splineViewer = document.querySelector('spline-viewer');
@@ -2921,6 +3474,307 @@
 
                 setTimeout(footerType, 1500);
             }
+
+            // --- NEW FEATURES LOGIC ---
+
+            // 1. Projects Carousel Logic
+            const projectsContainer = document.getElementById('projects-container');
+            const prevBtn = document.getElementById('carousel-prev');
+            const nextBtn = document.getElementById('carousel-next');
+
+            if (projectsContainer && prevBtn && nextBtn) {
+                const updateButtons = () => {
+                    const scrollLeft = projectsContainer.scrollLeft;
+                    const maxScroll = projectsContainer.scrollWidth - projectsContainer.clientWidth;
+                    prevBtn.disabled = scrollLeft <= 0;
+                    nextBtn.disabled = scrollLeft >= maxScroll - 1; // -1 to account for rounding errors
+                };
+
+                projectsContainer.addEventListener('scroll', debounce(updateButtons, 50));
+                window.addEventListener('resize', debounce(updateButtons, 100));
+
+                prevBtn.addEventListener('click', () => {
+                    const cardWidth = projectsContainer.querySelector('.project-card').offsetWidth;
+                    const gap = 24; // 1.5rem
+                    projectsContainer.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    const cardWidth = projectsContainer.querySelector('.project-card').offsetWidth;
+                    const gap = 24;
+                    projectsContainer.scrollBy({ left: (cardWidth + gap), behavior: 'smooth' });
+                });
+
+                // Initial update
+                setTimeout(updateButtons, 100);
+            }
+
+            // 2. Generic Modal Logic
+            window.closeModal = function (id) {
+                const modal = document.getElementById(id);
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+            };
+            // Close on escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.feature-modal-overlay.active').forEach(m => m.classList.remove('active'));
+                }
+            });
+            // Close on outside click
+            document.querySelectorAll('.feature-modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        overlay.classList.remove('active');
+                    }
+                });
+            });
+
+            // 3. CMD Terminal Logic
+            const cmdTerminalModal = document.getElementById('cmd-terminal-modal');
+            const cmdInput = document.getElementById('cmd-input');
+            const cmdOutput = document.getElementById('cmd-output');
+            const cmdBody = document.getElementById('cmd-terminal-body');
+            let commandHistory = [];
+            let historyIndex = -1;
+
+            window.openCmdTerminal = function() {
+                cmdTerminalModal.classList.add('active');
+                setTimeout(() => {
+                    cmdInput.focus();
+                    cmdBody.scrollTop = cmdBody.scrollHeight;
+                }, 100);
+            };
+
+            const terminalCommands = {
+                'help': 'Available commands:\n  help      - Show this message\n  home      - Go to top\n  about     - Scroll to About section\n  skills    - Scroll to Skills section\n  projects  - Scroll to Projects section\n  github    - Open GitHub profile\n  linkedin  - Open LinkedIn profile\n  contact   - Send an email\n  clear     - Clear terminal output\n  exit      - Close terminal',
+                'home': () => { window.scrollTo({ top: 0, behavior: 'smooth' }); return 'Navigating home...'; },
+                'about': () => { document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); return 'Navigating to About...'; },
+                'skills': () => { document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' }); return 'Navigating to Skills...'; },
+                'projects': () => { document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }); return 'Navigating to Projects...'; },
+                'github': () => { window.open('https://github.com/ftrudra7', '_blank'); return 'Opening GitHub...'; },
+                'linkedin': () => { window.open('https://www.linkedin.com/in/rudra-jha-b55b372a7', '_blank'); return 'Opening LinkedIn...'; },
+                'contact': () => { window.openEmail(); return 'Opening email client...'; },
+                'clear': () => { cmdOutput.innerHTML = ''; return ''; },
+                'exit': () => { window.closeModal('cmd-terminal-modal'); return 'Goodbye.'; }
+            };
+
+            function processCommand(cmdString) {
+                const rawCmd = cmdString.trim();
+                if (!rawCmd) return;
+
+                const cmd = rawCmd.toLowerCase();
+                commandHistory.push(rawCmd);
+                historyIndex = commandHistory.length;
+
+                const echo = document.createElement('div');
+                echo.innerHTML = `<span class="cmd-prompt">C:\\Rudra\\Portfolio&gt;</span> ${rawCmd}`;
+                cmdOutput.appendChild(echo);
+
+                const response = document.createElement('div');
+                response.style.marginBottom = '1rem';
+                response.style.color = '#fff';
+
+                if (terminalCommands[cmd]) {
+                    const action = terminalCommands[cmd];
+                    if (typeof action === 'function') {
+                        response.innerText = action();
+                    } else {
+                        response.innerText = action;
+                    }
+                } else {
+                    response.innerText = `'${rawCmd}' is not recognized as an internal or external command,\noperable program or batch file.\nType 'help' for a list of commands.`;
+                    response.style.color = '#e81123';
+                }
+
+                if (cmd !== 'clear') {
+                    cmdOutput.appendChild(response);
+                }
+                
+                cmdBody.scrollTop = cmdBody.scrollHeight;
+            }
+
+            if (cmdInput) {
+                cmdInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        processCommand(cmdInput.value);
+                        cmdInput.value = '';
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (historyIndex > 0) {
+                            historyIndex--;
+                            cmdInput.value = commandHistory[historyIndex];
+                        }
+                    } else if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (historyIndex < commandHistory.length - 1) {
+                            historyIndex++;
+                            cmdInput.value = commandHistory[historyIndex];
+                        } else {
+                            historyIndex = commandHistory.length;
+                            cmdInput.value = '';
+                        }
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    if (cmdTerminalModal.classList.contains('active')) {
+                        window.closeModal('cmd-terminal-modal');
+                    } else {
+                        window.openCmdTerminal();
+                    }
+                }
+            });
+
+            if (cmdOutput) {
+                cmdOutput.innerHTML = `Microsoft Windows [Version 10.0.19045.3803]<br>(c) Microsoft Corporation. All rights reserved.<br><br>Type 'help' to see available commands.<br><br>`;
+            }
+
+            // 5. Interactive Architecture & Decisions Logic
+            const projectData = {
+                quickai: {
+                    title: 'QuickAI SaaS',
+                    subtitle: 'Full-Stack Next.js Application with LLM Integration',
+                    overview: 'QuickAI is a B2B SaaS platform that enables rapid content generation. It was designed to solve the cold-start problem for marketers by providing instant, high-quality drafts using advanced language models.',
+                    architecture: [
+                        { label: 'Client / UI', tech: 'React, Next.js, Tailwind CSS', desc: 'Responsive, component-driven frontend with optimistic UI updates for real-time feel.' },
+                        { label: 'API Gateway & Edge', tech: 'Next.js API Routes, Vercel Edge', desc: 'Serverless functions routing requests, managing rate limits, and ensuring low latency.' },
+                        { label: 'Auth & Identity', tech: 'Clerk', desc: 'Enterprise-grade authentication, JWT verification, and secure user sessions.' },
+                        { label: 'AI Inference Engine', tech: 'Groq API (LPU)', desc: 'High-speed LLM processing achieving sub-second token generation for real-time interactions.' },
+                        { label: 'Database & State', tech: 'PostgreSQL, Prisma ORM', desc: 'Relational data modeling for users, generated documents, and subscription state.' }
+                    ],
+                    decisions: [
+                        { q: 'Why Groq over traditional OpenAI APIs?', a: 'Groq utilizes Language Processing Units (LPUs) rather than GPUs, resulting in significantly faster inference times. For a content-generation tool where user attention is fleeting, sub-second latency is a critical competitive advantage.' },
+                        { q: 'How is state managed across the application?', a: 'Global state is minimized. We rely heavily on React Query for server state and caching, while localized component state handles UI interactions. This avoids the boilerplate of Redux and keeps the application snappy.' },
+                        { q: 'What is the approach to scalability?', a: 'By leveraging Vercel\'s Edge Network and serverless functions, the application scales horizontally by default. Database connection pooling is managed via Prisma Accelerate to prevent connection exhaustion during traffic spikes.' }
+                    ]
+                },
+                drivesphere: {
+                    title: 'DriveSphere AI',
+                    subtitle: 'Automotive Intelligence and Diagnostics Platform',
+                    overview: 'DriveSphere AI aims to modernize vehicle diagnostics. It interprets raw OBD-II data and user reports to predict maintenance needs, acting as a virtual mechanic assistant.',
+                    architecture: [
+                        { label: 'Ingestion Layer', tech: 'RESTful Endpoints, Webhooks', desc: 'Receives asynchronous telemetry and user input data streams.' },
+                        { label: 'Workflow Orchestration', tech: 'n8n', desc: 'Node-based visual workflows that route data, trigger alerts, and integrate with external APIs.' },
+                        { label: 'Diagnostic Agents', tech: 'LangChain, Python', desc: 'LLM-powered micro-agents equipped with specialized tools to reason about vehicle fault codes.' },
+                        { label: 'Vector Storage', tech: 'Pinecone', desc: 'Stores semantic embeddings of vehicle manuals and historical repair data for RAG (Retrieval-Augmented Generation).' },
+                        { label: 'Presentation Layer', tech: 'React Dashboard', desc: 'Visualizes vehicle health scores, predicted failure points, and recommended actions.' }
+                    ],
+                    decisions: [
+                        { q: 'Why use an Agentic workflow (LangChain)?', a: 'Vehicle diagnostics is rarely a linear process. By using an agentic approach, the system can "decide" to query a manual, look up a specific fault code, or ask for more context based on the initial input, mimicking a human mechanic.' },
+                        { q: 'What role does n8n play in the architecture?', a: 'n8n acts as the glue between disparate systems. It handles the cron jobs, webhook listening, and data transformation before passing the payload to the Python-based AI agents, separating orchestration from business logic.' },
+                        { q: 'How is hallucination mitigated in diagnostics?', a: 'We use a strict RAG pipeline. The LLM is forced to cite sources from the vector database (service manuals). If the confidence score of the retrieved context is below a threshold, the system defaults to "Consult a certified mechanic" rather than guessing.' }
+                    ]
+                },
+                transcripto: {
+                    title: 'Transcripto',
+                    subtitle: 'Real-time Accessibility and Transcription Service',
+                    overview: 'Transcripto bridges communication gaps by providing simultaneous speech-to-text and sign-language-to-text translation. It is built for low-latency, high-accuracy processing in live environments.',
+                    architecture: [
+                        { label: 'Media Capture', tech: 'WebRTC, MediaDevices API', desc: 'Captures raw audio and video streams directly from the user\'s browser with minimal latency.' },
+                        { label: 'Streaming Backend', tech: 'Node.js, WebSockets', desc: 'Maintains persistent, bi-directional connections for streaming media chunks.' },
+                        { label: 'Speech Recognition', tech: 'Whisper API / Web Speech', desc: 'Processes audio chunks into text streams, handling various accents and background noise.' },
+                        { label: 'Computer Vision', tech: 'TensorFlow.js (Client-side)', desc: 'Analyzes hand gestures and body posture locally to preserve privacy and reduce server load.' },
+                        { label: 'NLP Summarizer', tech: 'Transformer Models', desc: 'Periodically condenses the transcript into key takeaways and action items.' }
+                    ],
+                    decisions: [
+                        { q: 'Why process computer vision on the client-side?', a: 'Sending high-framerate video to a server for sign-language detection is extremely bandwidth-intensive and introduces latency. Using TensorFlow.js allows us to extract skeletal data locally and only send lightweight coordinates to the backend.' },
+                        { q: 'How do you handle WebSocket disconnections?', a: 'The client implements an exponential backoff reconnection strategy. During a disconnect, media chunks are temporarily buffered in memory (up to a limit) and flushed once the connection is re-established to prevent data loss.' },
+                        { q: 'What is the biggest technical challenge faced?', a: 'Synchronizing the output from the Speech pipeline and the Vision pipeline. People often speak and sign at different rates. We implemented a time-stamping alignment algorithm to merge these streams coherently.' }
+                    ]
+                }
+            };
+
+            window.openProjectModal = function (id) {
+                const data = projectData[id];
+                if (!data) return;
+
+                document.getElementById('deep-dive-title').innerText = data.title;
+                document.getElementById('deep-dive-subtitle').innerText = data.subtitle;
+
+                const container = document.getElementById('deep-dive-content');
+                container.innerHTML = '';
+
+                // Overview Section
+                const overviewSection = document.createElement('div');
+                overviewSection.className = 'deep-dive-section';
+                overviewSection.innerHTML = `
+                    <h4>Overview</h4>
+                    <p class="deep-dive-text">${data.overview}</p>
+                `;
+                container.appendChild(overviewSection);
+
+                // Architecture Section
+                const archSection = document.createElement('div');
+                archSection.className = 'deep-dive-section';
+                let archHtml = `<h4>Architecture</h4><div class="arch-diagram-editorial">`;
+                
+                data.architecture.forEach((node, idx) => {
+                    archHtml += `
+                        <div class="arch-node-editorial">
+                            <div class="arch-node-title">${node.label}</div>
+                            <div class="arch-node-tech">${node.tech}</div>
+                            <div class="arch-node-desc">${node.desc}</div>
+                        </div>
+                    `;
+                    if (idx < data.architecture.length - 1) {
+                        archHtml += `<div class="arch-arrow-editorial">&#8595;</div>`;
+                    }
+                });
+                archHtml += `</div>`;
+                archSection.innerHTML = archHtml;
+                container.appendChild(archSection);
+
+                // Technical Decisions Section
+                const decSection = document.createElement('div');
+                decSection.className = 'deep-dive-section';
+                let decHtml = `<h4>Technical Decisions</h4><div class="deep-dive-accordions-wrapper">`;
+                
+                data.decisions.forEach(dec => {
+                    decHtml += `
+                        <div class="deep-dive-accordion">
+                            <button class="accordion-btn" aria-expanded="false">
+                                <span>${dec.q}</span>
+                                <span class="accordion-icon">+</span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="accordion-content-inner">${dec.a}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                decHtml += `</div>`;
+                decSection.innerHTML = decHtml;
+                container.appendChild(decSection);
+                
+                // Add event listeners for accordions (must be done after appending or querying within decSection)
+                const buttons = decSection.querySelectorAll('.accordion-btn');
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+                        
+                        // Close all others
+                        buttons.forEach(b => {
+                            b.setAttribute('aria-expanded', 'false');
+                            b.nextElementSibling.style.maxHeight = null;
+                            b.querySelector('.accordion-icon').innerText = '+';
+                        });
+
+                        if (!isExpanded) {
+                            btn.setAttribute('aria-expanded', 'true');
+                            const content = btn.nextElementSibling;
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            btn.querySelector('.accordion-icon').innerText = '×';
+                        }
+                    });
+                });
+
+                document.getElementById('deep-dive-modal').classList.add('active');
+            };
         });
     </script>
 </body>
