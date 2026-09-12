@@ -2282,7 +2282,56 @@
                     </div>
                 </div>
                 <div id="projects-container" class="projects-carousel">
-                    <!-- Project Card 1: QuickAI -->
+                    <!-- Project Card 1: GeoVision AI -->
+                    <div class="project-card flex flex-col justify-between">
+                        <div>
+                            <div class="image-container">
+                                <img loading="lazy" src="https://placehold.co/600x600/0f172a/3b82f6?text=GeoVision+AI"
+                                    alt="GeoVision AI geospatial intelligence dashboard with interactive Cesium globe, analysis controls and workflow trace">
+                            </div>
+                            <div class="project-info">
+                                <h3 class="font-subheading text-xl font-bold mb-1 text-slate-100">GeoVision AI</h3>
+                                <p class="text-xs text-blue-400 mb-3 font-semibold uppercase tracking-wider">AI-Powered
+                                    Geospatial Intelligence</p>
+                                <p class="text-sm leading-relaxed mb-4 text-slate-400">Built a full-stack geospatial
+                                    intelligence platform combining satellite data, interactive 3D Earth visualization and
+                                    AI-assisted analysis for forest fire, landslide and flash-flood risk assessment.</p>
+                                <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <span
+                                        class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">React</span>
+                                    <span
+                                        class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">CesiumJS</span>
+                                    <span
+                                        class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Node.js</span>
+                                    <span
+                                        class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">Express</span>
+                                    <span
+                                        class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">SQLite</span>
+                                    <span
+                                        class="text-xs px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/10 rounded-full font-medium">JWT</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 px-2 mt-auto">
+                            <a href="https://github.com/ftrudra7/GeoVision-AI"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
+                                target="_blank" aria-label="View GeoVision AI source code">
+                                <i class="fab fa-github" aria-hidden="true"></i> Code
+                            </a>
+                            <a href="https://geovision-ai-two.vercel.app/"
+                                class="cta-btn primary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
+                                target="_blank" aria-label="View GeoVision AI live demo">
+                                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Demo
+                            </a>
+                            <button onclick="openProjectModal('geovision')"
+                                class="cta-btn secondary text-xs w-full py-2.5 flex items-center justify-center gap-1.5"
+                                aria-label="View Architecture">
+                                <i class="fas fa-layer-group" aria-hidden="true"></i> Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2: QuickAI -->
                     <div class="project-card flex flex-col justify-between">
                         <div>
                             <div class="image-container">
@@ -2374,7 +2423,7 @@
                         </div>
                     </div>
 
-                    <!-- Project Card 3: Transcripto -->
+                    <!-- Project Card 4: Transcripto -->
                     <div class="project-card flex flex-col justify-between">
                         <div>
                             <div class="image-container">
@@ -3636,6 +3685,23 @@
 
             // 5. Interactive Architecture & Decisions Logic
             const projectData = {
+                geovision: {
+                    title: 'GeoVision AI',
+                    subtitle: 'AI-Powered Geospatial Intelligence Platform',
+                    overview: 'GeoVision AI is a full-stack geospatial intelligence platform designed for multi-hazard risk assessment and geographical analysis. The platform combines satellite imagery, environmental data, interactive CesiumJS globe visualization, temporal analysis and AI-assisted workflows.',
+                    architecture: [
+                        { label: '3D Earth & GIS UI', tech: 'React, Vite, CesiumJS, Resium, Tailwind CSS, Framer Motion', desc: 'Interactive 3D globe visualization rendering satellite layers, terrain elevation, and geospatial risk data.' },
+                        { label: 'AI Analyst & Workflows', tech: 'AI-Assisted Multi-Hazard Engine, Lucide React', desc: 'Step-by-step risk evaluation and workflow execution trace for forest-fire, landslide, and flood scenarios.' },
+                        { label: 'Backend API', tech: 'Node.js, Express.js, CORS, dotenv', desc: 'REST API managing geospatial queries, project history, and authentication services.' },
+                        { label: 'Auth & Security', tech: 'JWT, bcrypt', desc: 'Secure token-based user authentication and protected geospatial resource endpoints.' },
+                        { label: 'Database & Storage', tech: 'SQLite, better-sqlite3', desc: 'Embedded relational database storing analysis histories, user records, and geospatial layers.' }
+                    ],
+                    decisions: [
+                        { q: 'Why CesiumJS / Resium for 3D geospatial rendering?', a: 'CesiumJS is the industry standard for 3D digital globes, enabling smooth streaming of massive terrain models, high-resolution satellite imagery, and spatial polygons with precise geographical coordinates.' },
+                        { q: 'Why SQLite with better-sqlite3 for the backend?', a: 'better-sqlite3 delivers ultra-fast synchronous execution without network latency overhead, making it ideal for self-contained, high-performance geospatial query caching and project management.' },
+                        { q: 'How does the multi-hazard analysis pipeline work?', a: 'The system correlates environmental indicators and satellite observations, executing specialized risk assessment workflows for forest-fire, landslide susceptibility, and flash-flood hazards.' }
+                    ]
+                },
                 quickai: {
                     title: 'QuickAI SaaS',
                     subtitle: 'Full-Stack Next.js Application with LLM Integration',
